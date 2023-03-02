@@ -64,7 +64,7 @@ def bubble_plot(df_agg, label):
 def qua_rev_plot(df, label):
   count = df[label].value_counts(normalize=True)*100
   sum = df[['Monetary',label]].groupby(label).sum()
-  sum['percent'] = round(sum_2['Monetary']*100/df.Monetary.sum(),2)
+  sum['percent'] = round(sum['Monetary']*100/df.Monetary.sum(),2)
 
   plt.style.use('seaborn-whitegrid')
   qua_re_fig = plt.figure(figsize = (10, 5))
