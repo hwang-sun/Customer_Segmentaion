@@ -164,10 +164,10 @@ def kmeans_model(train_df, label_df):
   labels = model.labels_
   label_df['K_label'] = pd.Series(labels)
   return centroids, label_df
-centroids, df = kmeans_model(train_df = scale_df, label_df = df)
+centroids, k_df = kmeans_model(train_df = scale_df, label_df = df)
 
 # df aggregation
-df_agg = df_aggregation(df = df, label = 'K_label', agg_dict = {
+df_agg = df_aggregation(df = k_df, label = 'K_label', agg_dict = {
   'Recency' : 'mean',
   'Frequency' : 'mean',
   'Monetary' : ['mean', 'count']})
@@ -176,7 +176,7 @@ df_agg = df_aggregation(df = df, label = 'K_label', agg_dict = {
 fig_2 = bubble_plot(df_agg = df_agg, label = 'K_label')
 
 # cluster by revenue
-qua_re_fig_2 = qua_rev_plot(df = df, label = 'K_label')
+qua_re_fig_2 = qua_rev_plot(df = k_df, label = 'K_label')
 #------------------------ CLUSTERING WHOLE NEW FILE FROM USER --------------------------
 
 # upload file
