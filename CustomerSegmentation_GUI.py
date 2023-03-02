@@ -121,8 +121,16 @@ def dis_box_plot(df):
 # scale df
 @st.cache_data
 def robust_scale(df):
+  # log normalization
+  log_features = df.copy()
+  log_features['R_log'] = np.log1p(log_features['Recency'])
+  log_features['F_log'] = np.log1p(log_features['Frequency'])
+  log_features['M_log'] = np.log1p(log_features['Monetary'])
+  col_names = ['R_log', 'F_log','M_log']
+  features = log_features[col_names]
+  # Robust scaling
   robust_scaler = preprocessing.RobustScaler()
-  scaled = robust_scaler.fit_transform(df)
+  scaled = robust_scaler.fit_transform(features)
   scale_df = pd.DataFrame(scaled, columns=df.columns.values.tolist())
   return scale_df
 
