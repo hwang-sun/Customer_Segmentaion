@@ -137,6 +137,7 @@ def robust_scale(df):
 # Picking best centroids with Elbow method
 @st.cache_data
 def k_best_plot(df):
+  # Elbow method
   wsse = []
   K=[]
   for k in range(2, 10):
@@ -144,15 +145,33 @@ def k_best_plot(df):
       kmeans.fit(df)
       wsse.append(kmeans.inertia_/df.shape[0])
       K.append(k)
+  # Silhouette method
+  silhouette = []
+  K = []
+  for k in range(2, 10):
+      model = KMeans(n_clusters = k)
+      model.fit(scale_df)
+      silhouette.append(silhouette_score(scale_df, model.labels_))
+      K.append(k)
+  
   # plotting
-  elbow_fig = plt.figure(figsize=(10, 4))
+  k_best_fig = plt.figure(figsize=(10, 4))
+  plt.subplot(2,1,1)
   plt.plot(K, wsse, 'bx-')
+  plt.plot([7,0], [1,7], c = 'o', alpha=0.6)
   plt.xlabel('Number of centroids', fontsize = 15)
   plt.ylabel('WSSE', fontsize = 15)
   plt.xticks(K, fontsize=12)
   plt.yticks(fontsize=12)
   plt.title('Elbow Method for optimal k', fontsize = 18)
-  return elbow_fig
+  plt.subplot(2,1,2)
+  plt.plot(K, silhouette, 'bx-', c='r', alpha=0.7)
+  plt.xlabel('Number of centroids', fontsize = 15)
+  plt.ylabel('Silhouette score', fontsize = 15)
+  plt.xticks(K, fontsize=12)
+  plt.yticks(fontsize=12)
+  plt.title('Silhouette Method for optimal k', fontsize = 18)
+  return k_best_fig
 
 # Train model
 @st.cache_data
