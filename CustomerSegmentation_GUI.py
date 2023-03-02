@@ -17,7 +17,7 @@ import seaborn as sns
 def load_csv_df(df):
   df =  pd.read_csv(df)
   return df
-data = load_csv_df(df = 'RFM_data.csv')    
+rfm_df = load_csv_df(df = 'RFM_data.csv')    
 
 # customer labeling
 @st.cache_data
@@ -39,7 +39,7 @@ def rfm_label(df):
       df['RFM_label'] = "Loyal"
     elif df.R == 4 and df.M == 4:
       df['RFM_label'] = "VIP"
-  return df
+  return pd.Series(df['RFM_label'])
 
 # RFM aggregration
 @st.cache_data
@@ -260,9 +260,9 @@ m_groups = pd.qcut(df_RFM['Monetary'].rank(method='first'), q=4, labels=range(1,
 df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.values)
     """
     st.code(code)
-    st.dataframe(data.head(3))
+    st.dataframe(rfm_df.head(3))
     st.write('"RFM_label" was being assigned for each transaction by taking into consideration values of "R", "F", "M"')
-    rfm_df = rfm_label(data)
+    rfm_df['RFM_label'] = rfm_label(rfm_df)
     st.dataframe(rfm_df.head(3))
 
     st.write('''I then performed aggregating RFM result for ploting and analyzing the difference between groups:
@@ -292,7 +292,7 @@ elif choice == 'Kmeans Clustering':
     st.write('## Kmeans Clusering')
     st.write('### About The Data')
     
-    df = extract_cols(df = data, col_lst = ['Recency', 'Frequency', 'Monetary'])
+    df = extract_cols(df = rfm, col_lst = ['Recency', 'Frequency', 'Monetary'])
     st.dataframe(df.head())
     
     dis_box_fig = dis_box_plot(df = df)
