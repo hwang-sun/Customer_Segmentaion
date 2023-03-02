@@ -246,6 +246,7 @@ elif choice == 'Kmeans Clustering':
     st.write('## Kmeans Clusering')
     st.write('### About The Data')
     
+    rfm_df = load_csv_df(df = 'RFM_data.csv')    
     df = extract_cols(df = rfm_df, col_lst = ['Recency', 'Frequency', 'Monetary'])
     st.dataframe(df.head())
     
