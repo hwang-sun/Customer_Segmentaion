@@ -144,7 +144,7 @@ def k_best_plot(df):
       kmeans = KMeans(n_clusters = k)
       kmeans.fit(df)
       wsse.append(kmeans.inertia_/df.shape[0])
-      silhouette.append(silhouette_score(df, model.labels_))
+      silhouette.append(silhouette_score(df, kmeans.labels_))
       K.append(k)
   
   # plotting
