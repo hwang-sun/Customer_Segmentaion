@@ -59,8 +59,8 @@ def bubble_plot(df_agg, label):
 @st.cache_data
 def qua_rev_plot(df, label):
   count = df[label].value_counts(normalize=True)*100
-  sum = df[['Monetary','RFM_label']].groupby('RFM_label').sum()
-  sum['percent'] = round(sum['Monetary']*100/rfm_df.Monetary.sum(),2)
+  sum = df[['Monetary', label]].groupby(label).sum()
+  sum['percent'] = round(sum['Monetary']*100/df.Monetary.sum(),2)
 
   plt.style.use('seaborn-whitegrid')
   qua_re_fig = plt.figure(figsize = (10, 5))
@@ -92,7 +92,7 @@ def qua_rev_plot(df, label):
 #--------------------------------- KMeans Clustering -----------------------------------
 @st.cache_data
 def extract_cols(df, col_lst):
-  new_df = rfm_df[col_lst]
+  new_df = df[col_lst]
   return new_df
 
 # distribution and boxplot
@@ -152,13 +152,6 @@ def kmeans_model(train_df, label_df):
   labels = model.labels_
   label_df['K_label'] = pd.Series(labels)
   return centroids, label_df
-
-# df aggregation
-
-
-# bubble plot
-
-# cluster by revenue
 #------------------------ CLUSTERING WHOLE NEW FILE FROM USER --------------------------
 
 # upload file
