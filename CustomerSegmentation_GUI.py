@@ -22,22 +22,24 @@ rfm_df = load_csv_df(df = 'RFM_data.csv')
 # customer labeling
 @st.cache_data
 def rfm_label(df):
+  df['RFM_label'] = '0'
   if df.F == 1 or df.F==2 or df.F == 3:
     if (df.R == 1 or df.R == 2) and (df.M == 1 or df.M==2 or df.M == 3 or df.M == 4):
-      return "Lost"
+      df['RFM_label'] = "Lost"
     elif df.R == 3 or df.R == 4 and (df.M == 1 or df.M==2 or df.M == 3 or df.M == 4):
-      return "Regular"
+      df['RFM_label'] = "Regular"
     elif (df.R == 3 or df.R == 4) and df.M == 4:
-      return "Potential"
+      df['RFM_label'] = "Potential"
   else:
     if (df.R == 1 or df.R == 2) and (df.M == 1 or df.M==2 or df.M == 3 or df.M == 4):
-      return "Lost"
+      df['RFM_label'] = "Lost"
     elif df.R == 3 and (df.M == 1 or df.M == 2 or df.M == 3 or df.M == 4):
-      return 'Treat'
+      df['RFM_label'] = 'Treat'
     elif df.R == 4 and (df.M == 1 or df.M == 2 or df.M == 3):
-      return "Loyal"
+      df['RFM_label'] = "Loyal"
     elif df.R == 4 and df.M == 4:
-      return "VIP"
+      df['RFM_label'] = "VIP"
+  return df
 
 # RFM aggregration
 @st.cache_data
