@@ -260,7 +260,7 @@ m_groups = pd.qcut(df_RFM['Monetary'].rank(method='first'), q=4, labels=range(1,
 df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.values)
     """
     st.code(code)
-    st.dataframe(rfm_df.head(3))
+    st.dataframe(data.head(3))
     st.write('"RFM_label" was being assigned for each transaction by taking into consideration values of "R", "F", "M"')
     rfm_df = rfm_label(data)
     st.dataframe(rfm_df.head(3))
