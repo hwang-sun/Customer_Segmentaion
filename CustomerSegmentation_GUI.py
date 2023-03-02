@@ -17,7 +17,7 @@ import seaborn as sns
 def load_csv_df(df):
   df =  pd.read_csv(df)
   return df
-rfm_df = load_csv_df(df = 'RFM_data.csv')    
+data = load_csv_df(df = 'RFM_data.csv')    
 
 # customer labeling
 @st.cache_data
@@ -262,7 +262,7 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
     st.code(code)
     st.dataframe(rfm_df.head(3))
     st.write('"RFM_label" was being assigned for each transaction by taking into consideration values of "R", "F", "M"')
-    rfm_df['RFM_label'] = rfm_df.apply(rfm_label, axis=1)
+    rfm_df = rfm_label(data)
     st.dataframe(rfm_df.head(3))
 
     st.write('''I then performed aggregating RFM result for ploting and analyzing the difference between groups:
@@ -292,7 +292,7 @@ elif choice == 'Kmeans Clustering':
     st.write('## Kmeans Clusering')
     st.write('### About The Data')
     
-    df = extract_cols(df = rfm_df, col_lst = ['Recency', 'Frequency', 'Monetary'])
+    df = extract_cols(df = data, col_lst = ['Recency', 'Frequency', 'Monetary'])
     st.dataframe(df.head())
     
     dis_box_fig = dis_box_plot(df = df)
