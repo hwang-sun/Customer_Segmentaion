@@ -296,8 +296,8 @@ elif choice == 'Kmeans Clustering':
     st.dataframe(scale_df.head())
 
     st.write('### Picking K centroids and Kmeans Modeling')
-    elbow_fig = k_best_plot(df=scale_df)
-    st.pyplot(elbow_fig)
+    k_best_fig = k_best_plot(df=scale_df)
+    st.pyplot(k_best_fig)
 
     centroids, k_df = kmeans_model(train_df = scale_df, label_df = df)
     df_agg = df_aggregation(df = k_df, label = 'K_label', agg_dict = {
