@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from streamlit_option_menu import option_menu
-from sklearn.model_selection import train_test_split  
+from sklearn.metrics import silhouette_score
 from sklearn.cluster import KMeans
 from sklearn import preprocessing
 import pickle
@@ -150,8 +150,8 @@ def k_best_plot(df):
   K = []
   for k in range(2, 10):
       model = KMeans(n_clusters = k)
-      model.fit(scale_df)
-      silhouette.append(silhouette_score(scale_df, model.labels_))
+      model.fit(df)
+      silhouette.append(silhouette_score(df, model.labels_))
       K.append(k)
   
   # plotting
