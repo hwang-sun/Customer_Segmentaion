@@ -150,8 +150,7 @@ def k_best_plot(df):
   # plotting
   k_best_fig = plt.figure(figsize=(10, 4))
   plt.subplot(2,1,1)
-  plt.plot(K, wsse, 'bx-')
-  plt.plot([7,0], [1,7], c = 'o', alpha=0.6)
+  plt.plot(K, wsse, 'bx-', alpha = 0.8)
   plt.xlabel('Number of centroids', fontsize = 15)
   plt.ylabel('WSSE', fontsize = 15)
   plt.xticks(K, fontsize=12)
