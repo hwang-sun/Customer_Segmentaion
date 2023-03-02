@@ -189,7 +189,7 @@ qua_re_fig_2 = qua_rev_plot(df = k_df, label = 'K_label')
 
 # -------------------------------- GUI Setting -----------------------------------------
 # set page configuration
-st.set_page_config(page_title='Customer Segmentation Project', layout='centered')
+#st.set_page_config(page_title='Customer Segmentation Project', layout='centered')
 
 # create title
 st.title('Customer Segmentation Project')
