@@ -64,7 +64,7 @@ def bubble_plot(df_agg, label):
 def qua_rev_plot(df, label):
   count = df[label].value_counts(normalize=True)*100
   sum = df[['Monetary',label]].groupby(label).sum()
-  sum['percent'] = round(sum['Monetary']*100/df.Monetary.sum(),2)
+  sum['percent'] = round(sum_2['Monetary']*100/df.Monetary.sum(),2)
 
   plt.style.use('seaborn-whitegrid')
   qua_re_fig = plt.figure(figsize = (10, 5))
@@ -73,7 +73,7 @@ def qua_rev_plot(df, label):
               x = count.index.tolist(), y = count.values,
               orient = 'h',
               palette = 'Spectral')
-  ytick = count.sort_values().index.tolist()
+  ytick = [str(x) for x in count.index.tolist()]
   ax_q.set_yticklabels(ytick, fontsize=13)
   plt.setp(ax_q.get_xticklabels(), fontsize = 13)
   ax_q.set_title("Customers' count by each cluster (%)", fontsize=17)
@@ -84,7 +84,7 @@ def qua_rev_plot(df, label):
   ax_r = sns.barplot(y=sum.sort_values(by='percent').index, 
               x=sum.sort_values(by='percent').percent, 
               palette='Blues', orient='h')
-  ytick = sum.sort_values(by='percent').index.values.tolist()
+  ytick = [str(x) for x in sum.sort_values(by='percent').index.values.tolist()]
   ax_r.set_yticklabels(ytick, fontsize = 13)
   ax_r.set_xlim(0, 60)
   ax_r.set_ylabel(None)
@@ -168,13 +168,13 @@ def df_aggregation(df, label, agg_dict):
 
 # cluster by revenue
 @st.cache_data
-def qua_rev_plot_2(df, label):
+def qua_rev_plot(df, label):
   count_2 = df[label].value_counts(normalize=True)*100
   sum_2 = df[['Monetary',label]].groupby(label).sum()
   sum_2['percent'] = round(sum_2['Monetary']*100/df.Monetary.sum(),2)
 
   plt.style.use('seaborn-whitegrid')
-  qua_re_fig_2 = plt.figure(figsize = (10, 5))
+  qua_re_fig = plt.figure(figsize = (10, 5))
   plt.subplot(1,2,1)
   ax_q = sns.barplot(data = count_2, 
               x = count_2.index.tolist(), y = count_2.values,
@@ -199,7 +199,7 @@ def qua_rev_plot_2(df, label):
   ax_r.set_title('Total revenue by customer clusters (%)', fontsize = 17)
   plt.setp(ax_r.get_xticklabels(), fontsize=13)
   plt.tight_layout()
-  return qua_re_fig_2
+  return qua_re_fig
 #------------------------ CLUSTERING WHOLE NEW FILE FROM USER --------------------------
 
 # upload file
@@ -315,7 +315,7 @@ elif choice == 'Kmeans Clustering':
     fig_2 = bubble_plot(df_agg = df_agg, label = 'K_label')
     st.plotly_chart(fig_2)
     
-    qua_re_fig_2 = qua_rev_plot_2(df = df, label = 'K_label')
-    st.pyplot(qua_re_fig_2.figure)
+    qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label')
+    st.pyplot(qua_re_fig.figure)
 else:
     st.write('## Making Predictions')
