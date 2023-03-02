@@ -137,20 +137,13 @@ def robust_scale(df):
 # Picking best centroids with Elbow method
 @st.cache_data
 def k_best_plot(df):
-  # Elbow method
+  silhouette = []
   wsse = []
   K=[]
   for k in range(2, 10):
       kmeans = KMeans(n_clusters = k)
       kmeans.fit(df)
       wsse.append(kmeans.inertia_/df.shape[0])
-      K.append(k)
-  # Silhouette method
-  silhouette = []
-  K = []
-  for k in range(2, 10):
-      model = KMeans(n_clusters = k)
-      model.fit(df)
       silhouette.append(silhouette_score(df, model.labels_))
       K.append(k)
   
