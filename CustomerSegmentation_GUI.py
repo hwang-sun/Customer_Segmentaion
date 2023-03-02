@@ -165,41 +165,6 @@ def df_aggregation(df, label, agg_dict):
   df_agg['Percent'] = round(df_agg['Count']*100/df_agg.Count.sum(), 2)
   df_agg = df_agg.reset_index()
   return df_agg
-
-# cluster by revenue
-@st.cache_data
-def qua_rev_plot(df, label):
-  count_2 = df[label].value_counts(normalize=True)*100
-  sum_2 = df[['Monetary',label]].groupby(label).sum()
-  sum_2['percent'] = round(sum_2['Monetary']*100/df.Monetary.sum(),2)
-
-  plt.style.use('seaborn-whitegrid')
-  qua_re_fig = plt.figure(figsize = (10, 5))
-  plt.subplot(1,2,1)
-  ax_q = sns.barplot(data = count_2, 
-              x = count_2.index.tolist(), y = count_2.values,
-              orient = 'h',
-              palette = 'Spectral')
-  ytick = [str(x) for x in count_2.index.tolist()]
-  ax_q.set_yticklabels(ytick, fontsize=13)
-  plt.setp(ax_q.get_xticklabels(), fontsize = 13)
-  ax_q.set_title("Customers' count by each cluster (%)", fontsize=17)
-  ax_q.set_ylabel('Labels', fontsize = 15)
-  ax_q.set_xlabel(None)
-  # clusters by revenues
-  plt.subplot(1,2,2)
-  ax_r = sns.barplot(y=sum_2.sort_values(by='percent').index, 
-              x=sum_2.sort_values(by='percent').percent, 
-              palette='Blues', orient='h')
-  ytick = [str(x) for x in sum_2.sort_values(by='percent').index.values.tolist()]
-  ax_r.set_yticklabels(ytick, fontsize = 13)
-  ax_r.set_xlim(0, 60)
-  ax_r.set_ylabel(None)
-  ax_r.set_xlabel(None)
-  ax_r.set_title('Total revenue by customer clusters (%)', fontsize = 17)
-  plt.setp(ax_r.get_xticklabels(), fontsize=13)
-  plt.tight_layout()
-  return qua_re_fig
 #------------------------ CLUSTERING WHOLE NEW FILE FROM USER --------------------------
 
 # upload file
