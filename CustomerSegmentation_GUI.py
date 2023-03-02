@@ -20,26 +20,27 @@ def load_csv_df(df):
 rfm_df = load_csv_df(df = 'RFM_data.csv')    
 
 # customer labeling
-@st.cache_data
 def rfm_label(df):
-  df['RFM_label'] = 0
   if df.F == 1 or df.F==2 or df.F == 3:
     if (df.R == 1 or df.R == 2) and (df.M == 1 or df.M==2 or df.M == 3 or df.M == 4):
-      df['RFM_label'] = "Lost"
+      return "Lost"
     elif df.R == 3 or df.R == 4 and (df.M == 1 or df.M==2 or df.M == 3 or df.M == 4):
-      df['RFM_label'] = "Regular"
+      return "Regular"
     elif (df.R == 3 or df.R == 4) and df.M == 4:
-      df['RFM_label'] = "Potential"
+      return "Potential"
   else:
     if (df.R == 1 or df.R == 2) and (df.M == 1 or df.M==2 or df.M == 3 or df.M == 4):
-      df['RFM_label'] = "Lost"
+      return "Lost"
     elif df.R == 3 and (df.M == 1 or df.M == 2 or df.M == 3 or df.M == 4):
-      df['RFM_label'] = 'Treat'
+      return 'Treat'
     elif df.R == 4 and (df.M == 1 or df.M == 2 or df.M == 3):
-      df['RFM_label'] = "Loyal"
+      return "Loyal"
     elif df.R == 4 and df.M == 4:
-      df['RFM_label'] = "VIP"
-  return pd.Series(df['RFM_label'])
+      return "VIP"
+@st.cache_data
+def rfm_labeling(rfm_df):
+  rfm_df['RFM_label'] = rfm_df.apply(rfm_label, axis=1)
+  return rfm_df
 
 # RFM aggregration
 @st.cache_data
@@ -262,7 +263,7 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
     st.code(code)
     st.dataframe(rfm_df.head(3))
     st.write('"RFM_label" was being assigned for each transaction by taking into consideration values of "R", "F", "M"')
-    rfm_df['RFM_label'] = rfm_label(rfm_df)
+    rfm_df = rfm_labeling(rfm_df)
     st.dataframe(rfm_df.head(3))
 
     st.write('''I then performed aggregating RFM result for ploting and analyzing the difference between groups:
@@ -292,7 +293,7 @@ elif choice == 'Kmeans Clustering':
     st.write('## Kmeans Clusering')
     st.write('### About The Data')
     
-    df = extract_cols(df = rfm, col_lst = ['Recency', 'Frequency', 'Monetary'])
+    df = extract_cols(df = rfm_df, col_lst = ['Recency', 'Frequency', 'Monetary'])
     st.dataframe(df.head())
     
     dis_box_fig = dis_box_plot(df = df)
