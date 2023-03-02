@@ -17,6 +17,7 @@ import seaborn as sns
 def load_csv_df(df):
   df =  pd.read_csv(df)
   return df
+rfm_df = load_csv_df(df = 'RFM_data.csv')    
 
 # customer labeling
 @st.cache_data
@@ -213,7 +214,6 @@ m_groups = pd.qcut(df_RFM['Monetary'].rank(method='first'), q=4, labels=range(1,
 df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.values)
     """
     st.code(code)
-    rfm_df = load_csv_df(df = 'RFM_data.csv')    
     st.dataframe(rfm_df.head(3))
     st.write('"RFM_label" was being assigned for each transaction by taking into consideration values of "R", "F", "M"')
     rfm_df['RFM_label'] = rfm_df.apply(rfm_label, axis=1)
@@ -246,7 +246,6 @@ elif choice == 'Kmeans Clustering':
     st.write('## Kmeans Clusering')
     st.write('### About The Data')
     
-    rfm_df = load_csv_df(df = 'RFM_data.csv')    
     df = extract_cols(df = rfm_df, col_lst = ['Recency', 'Frequency', 'Monetary'])
     st.dataframe(df.head())
     
