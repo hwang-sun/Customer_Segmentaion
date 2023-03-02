@@ -22,7 +22,7 @@ rfm_df = load_csv_df(df = 'RFM_data.csv')
 # customer labeling
 @st.cache_data
 def rfm_label(df):
-  df['RFM_label'] = '0'
+  df['RFM_label'] = 0
   if df.F == 1 or df.F==2 or df.F == 3:
     if (df.R == 1 or df.R == 2) and (df.M == 1 or df.M==2 or df.M == 3 or df.M == 4):
       df['RFM_label'] = "Lost"
