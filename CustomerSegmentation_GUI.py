@@ -57,7 +57,7 @@ rfm_agg = df_aggregation(df = rfm_df, label = 'RFM_label', agg_dict = {
 # Clusters bubble plot
 @st.cache_data
 def bubble_plot(df_agg, label):
-  fig = px.scatter(rfm_agg, x="RecencyMean", y="FrequencyMean", size="MonetaryMean", color="RFM_label",
+  fig = px.scatter(df_agg, x="RecencyMean", y="FrequencyMean", size="MonetaryMean", color=label,
                   hover_name=label, size_max=100)
   return fig
 fig = bubble_plot(df_agg = rfm_agg, label = 'RFM_label')
