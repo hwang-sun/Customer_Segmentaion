@@ -168,7 +168,7 @@ def k_best_plot(df):
 # Train model
 @st.cache_data
 def kmeans_model(train_df, label_df):
-  model = KMeans(n_clusters = 7)
+  model = KMeans(n_clusters = 5)
   model.fit(train_df)
   # get centroids and labels
   centroids = model.cluster_centers_
