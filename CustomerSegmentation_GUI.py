@@ -352,7 +352,8 @@ else:
         new_df_1 = pd.read_csv(upload_file)
         st.dataframe(new_df_1.head(5))
         line_1 = new_df_1[0]
-        flag = 1
+        if len(line_1) > 0:
+          flag = 0
     elif pred_option == 'Input values':
       recency = st.slider('Days since your last purchase:', 0, 500, 0)
       frequency = st.slider('Range of total times you have made purchases:', 0, 200, (1, 20))
@@ -364,20 +365,18 @@ else:
         index = [0])
       st.dataframe(new_df_2)
       line_2 = np.array(new_df_2)
-      flag = 2
-    
-    if flag == 2:
-      st.write('Prediction:')
       if len(line_2) > 0:
-        x_scale = robust_scale(new_df_2)
-        y_pred = clf.predict(x_scale)
-        st.code("You belong to" + str(y_pred)[0] + "group of customer") 
-     elif flag == 1:
-      st.write('Prediction:')
-      if len(line_1) > 0:
-        x_scale = robust_scale(new_df_1)
-        y_pred = clf.predict(x_scale)
-        new_df_1['label'] = y_pred
-        st.dataframe(new_df_1.head())
+        flag = 1
+    
+    st.write('Prediction:')
+    if flag == 1:
+      x_scale = robust_scale(new_df_2)
+      y_pred = clf.predict(x_scale)
+      st.code("You belong to" + str(y_pred)[0] + "group of customer") 
+    else:
+      x_scale = robust_scale(new_df_1)
+      y_pred = clf.predict(x_scale)
+      new_df_1['label'] = y_pred
+      st.dataframe(new_df_1.head())
     
     
