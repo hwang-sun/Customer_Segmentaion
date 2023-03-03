@@ -357,8 +357,8 @@ else:
       monetary = st.slider('Range of total money you have spent ($):', 4, 14000, (4, 100))
       new_df = pd.DataFrame({
         'Recency' : recency,
-        'Frequency' :  frequency.sum()/2,
-        'Monetary' : monetary.sum()/2}, 
+        'Frequency' :  sum(frequency)/len(frequency),
+        'Monetary' : sum(monetary)/len(monetary)}, 
         index = [0])
       lines = np.array(new_df)
       st.dataframe(new_df)
