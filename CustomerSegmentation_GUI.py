@@ -360,8 +360,9 @@ df['K_label'] = pd.Series(labels)
     qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label')
     st.pyplot(qua_re_fig.figure)
 else:
-    st.write('### I. How To Predict?')
+    st.write('## New Prediction')
     '---'
+    st.write('### I. How To Predict?')
     st.write('''
 The idea was that I would build a classification model based on the labels from RFM analysis to predict which cluster a random customer would belong to
 so that we can assign suitable strategy for that customer. 
