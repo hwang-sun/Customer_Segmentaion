@@ -313,7 +313,7 @@ elif choice == 'Kmeans Clustering':
     qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label')
     st.pyplot(qua_re_fig.figure)
 else:
-    st.write('## How to predict?'
+    st.write('## How to predict?')
     model_select = load_csv_df('Clf_model/Clf_select.csv')
     st.dataframe(model_select)
 
