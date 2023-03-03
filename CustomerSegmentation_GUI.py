@@ -185,7 +185,7 @@ def df_aggregation(df, label, agg_dict):
   df_agg['Percent'] = round(df_agg['Count']*100/df_agg.Count.sum(), 2)
   df_agg = df_agg.reset_index()
   return df_agg
-#------------------------  Making New Predictions With Decision Tree classification --------------------------
+#------------------------ CLUSTERING WHOLE NEW FILE FROM USER --------------------------
 # load scaler
 @st.cache(allow_output_mutation=True)
 def load_scaler(scaler_name):
@@ -216,27 +216,26 @@ def load_model(model_name):
 # create title
 st.title('Customer Segmentation Project')
 #create a navigation menu
-choice = option_menu(
-    options = ['Business Objective', 'RFM Analysis','Kmeans Clustering', 'New Prediction'],
-    menu_title = None,
-    icons = ['bullseye', 'bar-chart', 'robot', 'file-plus'],
-    menu_icon = [None])
+with st.sidebar:
+  choice = option_menu(
+      options = ['Business Objective', 'RFM Analysis','Kmeans Clustering', 'New Prediction'],
+      menu_title = 'Main Menu',
+      icons = ['bullseye', 'bar-chart', 'robot', 'file-plus'],
+      menu_icon = [None])
 
 if choice == "Business Objective":
     st.write('## Business Objective')
-    st.write('''Customer segmentation is the process of dividing a company's customers into smaller groups based on similar characteristics, such as demographics, behavior, needs, or preferences. Customer segmentation is important for several reasons:
-    
-    1. Better understanding of customers: 
-    Customer segmentation allows a company to gain a deeper understanding of its customers, including their needs, preferences, and behaviors.
-    
-    2. Improved customer experience: 
-    By tailoring products and services to specific customer segments, companies can provide a better customer experience.
-    
-    3. More effective marketing: 
-    Customer segmentation allows companies to target their marketing efforts to specific customer segments. This can result in more effective marketing campaigns, and increased sales.
-    
-    4. Increased profitability: 
-    By focusing on the most profitable customer segments, companies can increase their profitability.
+    st.write("Customer segmentation is the process of dividing a company's customers into smaller groups based on similar characteristics, such as demographics, behavior, needs, or preferences. Customer segmentation is important for several reasons:")
+    st.write(
+      '''
+1. Better understanding of customers: 
+  Customer segmentation allows a company to gain a deeper understanding of its customers, including their needs, preferences, and behaviors.
+2. Improved customer experience: 
+  By tailoring products and services to specific customer segments, companies can provide a better customer experience.
+3. More effective marketing: 
+  Customer segmentation allows companies to target their marketing efforts to specific customer segments. This can result in more effective marketing campaigns, and increased sales. 
+4. Increased profitability: 
+  By focusing on the most profitable customer segments, companies can increase their profitability.
     ''')
     st.image('customer-segmentation.jpg')
     st.write('''In this project, I perform segmenting customers based on 3 main factors:
@@ -293,19 +292,57 @@ elif choice == 'Kmeans Clustering':
     
     df = extract_cols(df = rfm_df, col_lst = ['Recency', 'Frequency', 'Monetary'])
     st.dataframe(df.head())
-    
     dis_box_fig = dis_box_plot(df = df)
     st.pyplot(dis_box_fig)
-    st.write("As RFM features had lots of outliners, I perform Robust scaling to standardize data before the RFM dataframe was trained by Kmeans algorithm.")
-    
+    st.write('''
+  The data used for Kmeans Clustering was the original data.
+  As RFM features had lots of outliners, I performed Log normalization to standardize each feature to normal distribution
+  and used Robust scaling to scale data down to the same range before the RFM dataframe was trained by Kmeans algorithm.)
+    ''')
+    st.code('''
+def robust_scale(df):
+  # log normalization
+  log_features = df.copy()
+  log_features['R_log'] = np.log1p(log_features['Recency'])
+  log_features['F_log'] = np.log1p(log_features['Frequency'])
+  log_features['M_log'] = np.log1p(log_features['Monetary'])
+  col_names = ['R_log', 'F_log','M_log']
+  features = log_features[col_names]
+  # Robust scaling
+  robust_scaler = preprocessing.RobustScaler()
+  scaled = robust_scaler.fit_transform(features)
+  scale_df = pd.DataFrame(scaled, columns=df.columns.values.tolist())
+  return scale_df
+
+ scale_df = robust_scale(df = df)
+    ''')
     scale_df = robust_scale(df = df)
     st.dataframe(scale_df.head())
 
-    st.write('### Picking K centroids and Kmeans Modeling')
+    st.write('### Picking K centroids')
+    st.write('''
+In order to perform Kmeans clustering, I need to determine the effective number of centroids (k). 
+By deploying Elbow method and Silhouette Score, it's clear that k = 5 centroids offer a low WSSE and not too low silhouette score.
+    ''')
     k_best_fig = k_best_plot(df=scale_df)
     st.pyplot(k_best_fig)
-
+    st.write('## Kmeans Modeling')
+    st.write('''
+With the k centroids = 5, I use Kmeans() from sklearn library to conduct clusers analysis
+    ''')
+    st.code('''
+from sklearn.cluster import KMeans
+model = KMeans(n_clusters = 5)
+model.fit(scale_df)
+# get centroids and labels
+centroids = model.cluster_centers_
+labels = model.labels_
+# assign label for original dataset
+df['K_label'] = pd.Series(labels)
+    ''')
     centroids, k_df = kmeans_model(train_df = scale_df, label_df = df)
+    st.dataframe(k_df.head())
+
     df_agg = df_aggregation(df = k_df, label = 'K_label', agg_dict = {
       'Recency' : 'mean',
       'Frequency' : 'mean',
@@ -326,7 +363,7 @@ else:
     # Model evaluation
     st.write('## Model Evaluation')
     score_option = st.radio(
-      'What score you want to see?',
+      'What score do you want to see?',
       ['Accuracy', 'Weighted Scores', 'Classification report', 'Confusion matrix']
     )
     if score_option == 'Accuracy':
@@ -351,7 +388,8 @@ else:
     )
     if pred_option == 'Upload your own data':
       st.write('Your file should only contains 3 features: "Recency", "Frequency", "Monetary value"')
-      upload_file = st.file_uploader("Choose a csv file", type = ['txt', 'csv'])
+      upload_file = st.file_uploader("Choose a csv file", 
+                                     type = ['txt', 'csv'])
       if upload_file is not None:
         new_df_1 = pd.read_csv(upload_file)
         st.dataframe(new_df_1.head(5))
