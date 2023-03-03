@@ -358,10 +358,11 @@ df['K_label'] = pd.Series(labels)
     qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label')
     st.pyplot(qua_re_fig.figure)
 else:
-    st.write('## How to predict?')
+    st.write('### How to predict?')
     st.write('''
 The idea was that I would build a classification model based on the labels from RFM analysis to predict which cluster a random customer would belong to
 so that we can assign suitable strategy for that customer. 
+
 There were various models to tackle this problem so it's crucial to determine the most appropriate one for the current data set. 
 In order to do this, I perform cross validation with k-fold = 10 on accuracy score and performing time. Based on these 2 factos, I can then choose the fastest and most accurate model
     ''')
@@ -401,7 +402,7 @@ model.fit(x_train, y_train)
     clf = load_model('Clf_model/DC_clf.joblib')
     
     # Model evaluation
-    st.write('## Model Evaluation')
+    st.write('### Model Evaluation')
     score_option = st.radio(
       'What score do you want to see?',
       ['Accuracy', 'Weighted Scores', 'Classification report', 'Confusion matrix']
@@ -420,7 +421,7 @@ model.fit(x_train, y_train)
       st.image('Clf_model/confusion_matrix.png')
     
     # Making predictions
-    st.write('## Making Predictions')
+    st.write('### Making Predictions')
     
     pred_option = st.selectbox(
       'How would you like to make prediction?',
