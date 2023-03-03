@@ -127,7 +127,7 @@ def robust_scale(df):
   log_features['R_log'] = np.log1p(log_features['Recency'])
   log_features['F_log'] = np.log1p(log_features['Frequency'])
   log_features['M_log'] = np.log1p(log_features['Monetary'])
-  col_names = ['R_log', 'F_log','M_log']
+  col_names = ['R_log', 'F_log', 'M_log']
   features = log_features[col_names]
   # Robust scaling
   robust_scaler = preprocessing.RobustScaler()
@@ -382,7 +382,7 @@ else:
         x_scale = robust_scale(new_df)
         st.dataframe(x_scale.head())
         y_pred = clf.predict(x_scale)
-        new_df_1['label'] = y_pred
-        st.dataframe(new_df_1.head())
+        new_df['label'] = pd.Series(y_pred)
+        st.dataframe(new_df.head())
     
     
