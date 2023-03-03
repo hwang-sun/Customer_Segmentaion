@@ -238,11 +238,11 @@ if choice == "Business Objective":
   By focusing on the most profitable customer segments, companies can increase their profitability.
     ''')
     st.image('customer-segmentation.jpg')
-    st.write('''In this project, I perform segmenting customers based on 3 main factors:
-             
-    - Recency: The last time a customer made a purchase.
-    - Frequency: The number of times a customer has made a purchase.
-    - Monetary value: The total amount of money a customer has spent on purchases.
+    st.write('In this project, I perform segmenting customers based on 3 main factors:')
+    st.write('''
+- Recency: The last time a customer made a purchase.
+- Frequency: The number of times a customer has made a purchase.
+- Monetary value: The total amount of money a customer has spent on purchases.
     ''')
     st.write("By using RFM analysis and Kmeans clustering algorithm on these 3 features, I expect to defferentiate customer groups' behaviors and values.")
 elif choice == 'RFM Analysis':
@@ -297,7 +297,7 @@ elif choice == 'Kmeans Clustering':
     st.write('''
   The data used for Kmeans Clustering was the original data.
   As RFM features had lots of outliners, I performed Log normalization to standardize each feature to normal distribution
-  and used Robust scaling to scale data down to the same range before the RFM dataframe was trained by Kmeans algorithm.)
+  and used Robust scaling to scale data down to the same range before the RFM dataframe was trained by Kmeans algorithm.
     ''')
     st.code('''
 def robust_scale(df):
@@ -319,14 +319,14 @@ def robust_scale(df):
     scale_df = robust_scale(df = df)
     st.dataframe(scale_df.head())
 
-    st.write('### Picking K centroids')
+    st.write('### Pick K best centroids')
     st.write('''
 In order to perform Kmeans clustering, I need to determine the effective number of centroids (k). 
 By deploying Elbow method and Silhouette Score, it's clear that k = 5 centroids offer a low WSSE and not too low silhouette score.
     ''')
     k_best_fig = k_best_plot(df=scale_df)
     st.pyplot(k_best_fig)
-    st.write('## Kmeans Modeling')
+    st.write('### Kmeans Modeling')
     st.write('''
 With the k centroids = 5, I use Kmeans() from sklearn library to conduct clusers analysis
     ''')
@@ -342,7 +342,12 @@ df['K_label'] = pd.Series(labels)
     ''')
     centroids, k_df = kmeans_model(train_df = scale_df, label_df = df)
     st.dataframe(k_df.head())
-
+    st.write('The result of Kmeans Clustering does not seem to be very appropriate as following reasons:')
+    st.write('''
+- Groups only show the differences in Recency and Frequency, but not revenue contribution (the most important factor)
+- Eventhough group 4 accounted for more than 50% of the total customer's quanitty, their total revenue was only about 15% whereas they're expected to be the most valuable customer cluster (as in the bubble chart)
+- it's hardly explained the differences in characteristics of these groups whcich would result in uneffective business strategy for each one.
+    ''')
     df_agg = df_aggregation(df = k_df, label = 'K_label', agg_dict = {
       'Recency' : 'mean',
       'Frequency' : 'mean',
@@ -354,9 +359,44 @@ df['K_label'] = pd.Series(labels)
     st.pyplot(qua_re_fig.figure)
 else:
     st.write('## How to predict?')
+    st.write('''
+The idea was that I would build a classification model based on the labels from RFM analysis to predict which cluster a random customer would belong to
+so that we can assign suitable strategy for that customer. 
+There were various models to tackle this problem so it's crucial to determine the most appropriate one for the current data set. 
+In order to do this, I perform cross validation with k-fold = 10 on accuracy score and performing time. Based on these 2 factos, I can then choose the fastest and most accurate model
+    ''')
     model_select = load_csv_df('Clf_model/Clf_select.csv')
-    st.dataframe(model_select)
+    st.dataframe(model_select)    
+    st.write('After decide that Decision Tree was the best model for the data set. I then perform Grid Search CV to get the best hyperparameters with the expection of increasing perfomance score.')
+    st.code('''
+from sklearn.model_selection import GridSearchCV
+# Define the parameter grid to search
+param_grid = {
+    'criterion': ['gini', 'entropy'],
+    'max_depth': [2, 4, 6, 8, 10],
+    'min_samples_split': [2, 4, 6, 8, 10],
+    'min_samples_leaf': [1, 2, 4, 6, 8, 10]}
+# Create a decision tree classifier object
+dt = DecisionTreeClassifier()
 
+# Create a GridSearchCV object
+grid_search = GridSearchCV(dt, param_grid, cv=5)
+
+# Fit the GridSearchCV object to the data
+grid_search.fit(x_train, y_train)
+
+# Print the best parameters and best score
+print("Best parameters: ", grid_search.best_params_)
+print("Best score: ", grid_search.best_score_)
+    ''')
+    st.write("Start training model with the best hyperparameters from Grid Search CV's result")
+    st.code('''
+model = DecisionTreeClassifier(criterion = 'gini',
+                               max_depth = 4,
+                               min_samples_leaf = 1,
+                               min_samples_split = 2)
+model.fit(x_train, y_train)
+    ''')
     # load model
     clf = load_model('Clf_model/DC_clf.joblib')
     
