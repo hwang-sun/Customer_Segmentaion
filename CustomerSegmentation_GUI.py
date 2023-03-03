@@ -215,6 +215,7 @@ def load_model(model_name):
 
 # create title
 st.title('Customer Segmentation Project')
+st.markdown('---')
 #create a navigation menu
 with st.sidebar:
   choice = option_menu(
