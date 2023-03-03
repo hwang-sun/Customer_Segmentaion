@@ -248,6 +248,7 @@ if choice == "Business Objective":
     st.write("By using RFM analysis and Kmeans clustering algorithm on these 3 features, I expect to defferentiate customer groups' behaviors and values.")
 elif choice == 'RFM Analysis':
     st.write("## RFM Analysis")
+    '---'
     st.write('### I. About The Data')
     
     st.write('''The data used for analysis including 3 main features: "Recency", "Frequency", "Monetary Value"
