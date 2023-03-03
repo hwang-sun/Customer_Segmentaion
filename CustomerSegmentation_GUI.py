@@ -350,6 +350,7 @@ else:
       ['Upload your own data', 'Input values']
     )
     if pred_option == 'Upload your own data':
+      st.write('Your file should only contains 3 features: "Recency", "Frequency", "Monetary value"')
       upload_file = st.file_uploader("Choose a csv file", type = ['txt', 'csv'])
       if upload_file is not None:
         new_df_1 = pd.read_csv(upload_file)
