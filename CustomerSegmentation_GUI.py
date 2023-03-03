@@ -341,6 +341,7 @@ else:
     
     # Making predictions
     st.write('## Making Predictions')
+    
     pred_option = st.selectbox(
       'How would you like to make prediction?',
       ['Upload your own data', 'Input values']
@@ -360,14 +361,14 @@ else:
         'Frequency' :  sum(frequency)/len(frequency),
         'Monetary' : sum(monetary)/len(monetary)}, 
         index = [0])
-      lines = np.array(new_df)
       st.dataframe(new_df)
+      lines = np.array(new_df)
    
-#     st.write('Content:')
-#     if len(lines) > 0:
-#       st.code(lines)
-#       x_scale = robust_scale(new_df)
-#       y_pred = clf.predict(x_scale)
-#       st.code("New prediction:" + str(y_pred)) 
+    st.write('Content:')
+    if len(lines) > 0:
+      st.code(lines)
+      x_scale = robust_scale(new_df)
+      y_pred = clf.predict(x_scale)
+      st.code("New prediction:" + str(y_pred)) 
     
     
