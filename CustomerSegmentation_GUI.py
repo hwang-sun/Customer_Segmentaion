@@ -372,7 +372,7 @@ else:
     if flag == 1:
       x_scale = robust_scale(new_df_2)
       y_pred = clf.predict(x_scale)
-      st.code("You belong to" + str(y_pred) + "group of customer") 
+      st.code("You belong to " + str(y_pred) + " group of customer") 
     else:
       x_scale = robust_scale(new_df_1)
       y_pred = clf.predict(x_scale)
