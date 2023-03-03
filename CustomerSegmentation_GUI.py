@@ -149,7 +149,7 @@ def k_best_plot(df):
       K.append(k)
   
   # plotting
-  k_best_fig = plt.figure(figsize=(10, 7))
+  k_best_fig = plt.figure(figsize=(10, 6))
   plt.subplot(2,1,1)
   plt.plot(K, wsse, 'bx-', alpha = 0.8)
   plt.ylabel('WSSE', fontsize = 12)
@@ -215,7 +215,6 @@ def load_model(model_name):
 
 # create title
 st.title('Customer Segmentation Project')
-st.markdown('---')
 #create a navigation menu
 with st.sidebar:
   choice = option_menu(
@@ -226,6 +225,7 @@ with st.sidebar:
 
 if choice == "Business Objective":
     st.write('## Business Objective')
+    '---'
     st.write("Customer segmentation is the process of dividing a company's customers into smaller groups based on similar characteristics, such as demographics, behavior, needs, or preferences. Customer segmentation is important for several reasons:")
     st.write(
       '''
@@ -289,6 +289,7 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
 
 elif choice == 'Kmeans Clustering':
     st.write('## Kmeans Clusering')
+    '---'
     st.write('### I. About The Data')
     
     df = extract_cols(df = rfm_df, col_lst = ['Recency', 'Frequency', 'Monetary'])
@@ -360,6 +361,7 @@ df['K_label'] = pd.Series(labels)
     st.pyplot(qua_re_fig.figure)
 else:
     st.write('### I. How To Predict?')
+    '---'
     st.write('''
 The idea was that I would build a classification model based on the labels from RFM analysis to predict which cluster a random customer would belong to
 so that we can assign suitable strategy for that customer. 
