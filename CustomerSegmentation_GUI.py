@@ -364,7 +364,7 @@ else:
       lines = np.array(new_df)
       flag = True
     
-    if flag = True:
+    if flag == True:
       st.write('Content:')
       if len(lines) > 0:
         st.code(lines)
