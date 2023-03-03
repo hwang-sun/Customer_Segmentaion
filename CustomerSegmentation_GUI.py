@@ -371,7 +371,7 @@ else:
       if len(line_2) > 0:
         x_scale = robust_scale(new_df_2)
         y_pred = clf.predict(x_scale)
-        st.code("You belong to" + str(y_pred)[0] "group of customer") 
+        st.code("You belong to" + str(y_pred)[0] + "group of customer") 
      elif flag == 1:
       st.write('Prediction:')
       if len(line_1) > 0:
