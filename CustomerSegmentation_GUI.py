@@ -373,12 +373,14 @@ else:
         st.write('Prediction:')
         new_df = new_df_2
         x_scale = robust_scale(new_df)
+        st.dataframe(x_scale)
         y_pred = clf.predict(x_scale)
         st.code("You belong to " + str(y_pred) + " group of customer") 
       else:
         st.write('Prediction:')
         new_df = new_df_1
         x_scale = robust_scale(new_df)
+        st.dataframe(x_scale.head())
         y_pred = clf.predict(x_scale)
         new_df_1['label'] = y_pred
         st.dataframe(new_df_1.head())
