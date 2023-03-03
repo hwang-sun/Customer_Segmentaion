@@ -407,7 +407,7 @@ model.fit(x_train, y_train)
     # Model evaluation
     st.write('## Model Evaluation')
     score_option = st.radio(
-      'What score do you want to see?',
+      'What report do you want to access?',
       ['Accuracy', 'Weighted Scores', 'Classification report', 'Confusion matrix']
     )
     if score_option == 'Accuracy':
@@ -416,8 +416,8 @@ model.fit(x_train, y_train)
       st.write('=> Model perform well and not being underfiting or overfiting')
     elif score_option == 'Weighted Scores':
       score_df2 = load_csv_df('Clf_model/score_df2.csv')
-      st.write('=> Data is balanced and the model is not biased')
       st.dataframe(score_df2)
+      st.write('=> Data is balanced and the model is not biased')
     elif score_option == 'Classification report':
       report_df = load_csv_df('Clf_model/classification_report.csv')
       st.dataframe(report_df)
