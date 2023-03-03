@@ -149,7 +149,7 @@ def k_best_plot(df):
       K.append(k)
   
   # plotting
-  k_best_fig = plt.figure(figsize=(10, 4))
+  k_best_fig = plt.figure(figsize=(10, 7))
   plt.subplot(2,1,1)
   plt.plot(K, wsse, 'bx-', alpha = 0.8)
   plt.ylabel('WSSE', fontsize = 12)
@@ -215,7 +215,7 @@ def load_model(model_name):
 
 # create title
 st.title('Customer Segmentation Project')
-'---'
+st.markdown('---')
 #create a navigation menu
 with st.sidebar:
   choice = option_menu(
@@ -423,11 +423,12 @@ model.fit(x_train, y_train)
     
     # Making predictions
     st.write('### III. Making Predictions')
-  
+    
     pred_option = st.selectbox(
       'How would you like to make prediction?',
       ['Upload your own data', 'Input values']
     )
+
     with st.form("Predict form", clear_on_submit=True):
       if pred_option == 'Upload your own data':
         st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
