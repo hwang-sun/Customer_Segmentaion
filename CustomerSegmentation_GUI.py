@@ -423,53 +423,55 @@ model.fit(x_train, y_train)
     
     # Making predictions
     st.write('### III. Making Predictions')
-    
+  
     pred_option = st.selectbox(
       'How would you like to make prediction?',
       ['Upload your own data', 'Input values']
     )
-    if pred_option == 'Upload your own data':
-      st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
-                 icon = '⚠')
-      upload_file = st.file_uploader("Choose a csv file", 
-                                     type = ['txt', 'csv'])
-      if upload_file is not None:
-        new_df_1 = pd.read_csv(upload_file)
-        st.dataframe(new_df_1.head(5))
-        line_1 = new_df_1[0]
-        if len(line_1) > 0:
-          flag = 0
-    elif pred_option == 'Input values':
-      recency = st.slider('Days since your last purchase:', 0, 500, 0)
-      frequency = st.slider('Range of total times you have made purchases:', 0, 200, (1, 20))
-      monetary = st.slider('Range of total money you have spent ($):', 4, 14000, (4, 100))
-      new_df_2 = pd.DataFrame({
-        'Recency' : recency,
-        'Frequency' :  sum(frequency)/len(frequency),
-        'Monetary' : sum(monetary)/len(monetary)}, 
-        index = [0])
-      st.dataframe(new_df_2)
-      line_2 = np.array(new_df_2)
-      if len(line_2) > 0:
-        flag = 1
+    with st.form("Predict form", clear_on_submit=True):
+      if pred_option == 'Upload your own data':
+        st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
+                  icon = '⚠')
+        upload_file = st.file_uploader("Choose a csv file", 
+                                      type = ['txt', 'csv'])
+        if upload_file is not None:
+          new_df_1 = pd.read_csv(upload_file)
+          st.dataframe(new_df_1.head(5))
+          line_1 = new_df_1[0]
+          if len(line_1) > 0:
+            flag = 0
+      elif pred_option == 'Input values':
+        recency = st.slider('Days since your last purchase:', 0, 500, 0)
+        frequency = st.slider('Range of total times you have made purchases:', 0, 200, (1, 20))
+        monetary = st.slider('Range of total money you have spent ($):', 4, 14000, (4, 100))
+        new_df_2 = pd.DataFrame({
+          'Recency' : recency,
+          'Frequency' :  sum(frequency)/len(frequency),
+          'Monetary' : sum(monetary)/len(monetary)}, 
+          index = [0])
+        st.dataframe(new_df_2)
+        line_2 = np.array(new_df_2)
+        if len(line_2) > 0:
+          flag = 1
     
-    robust_scaler = load_scaler('Clf_model/scaler.pkl')
-    
-    if st.button('Predict'):
-      if flag == 1:
-        st.write('Prediction:')
-        new_df = new_df_2
-        x_scale = robust_scaler.transform(log_normalize(new_df))
-        st.write('Scaled dataframe')
-        st.dataframe(x_scale)
-        y_pred = clf.predict(x_scale)
-        st.code("You belong to " + str(y_pred) + " group of customer") 
-      else:
-        st.write('Prediction:')
-        new_df = new_df_1
-        x_scale = robust_scaler.transform(log_normalize(new_df))
-        st.write('Scaled values')
-        st.dataframe(x_scale.head())
-        y_pred = clf.predict(x_scale)
-        new_df['label'] = pd.Series(y_pred)
-        st.dataframe(new_df.head())
+      robust_scaler = load_scaler('Clf_model/scaler.pkl')
+      submitted = st.form_submit_button('Predict')
+
+      if submitted:
+        if flag == 1:
+          st.write('Prediction:')
+          new_df = new_df_2
+          x_scale = robust_scaler.transform(log_normalize(new_df))
+          st.write('Scaled dataframe')
+          st.dataframe(x_scale)
+          y_pred = clf.predict(x_scale)
+          st.code("You belong to " + str(y_pred) + " group of customer") 
+        else:
+          st.write('Prediction:')
+          new_df = new_df_1
+          x_scale = robust_scaler.transform(log_normalize(new_df))
+          st.write('Scaled values')
+          st.dataframe(x_scale.head())
+          y_pred = clf.predict(x_scale)
+          new_df['label'] = pd.Series(y_pred)
+          st.dataframe(new_df.head())
