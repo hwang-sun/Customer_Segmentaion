@@ -341,5 +341,35 @@ else:
     
     # Making predictions
     st.write('## Making Predictions')
+    pred_option = st.selectbox(
+      'How would you like to make prediction?',
+      ['Upload your own data', 'Input values']
+    )
+    if pred_option == 'Upload your own data':
+      upload_file = st.file_uploader("Choose a csv file", type = ['txt', 'csv'])
+      if upload_file is not None:
+        new_df = pd.read_csv(upload_file)
+        st.dataframe(new_df)
+        lines = new_df[0]
+        flag = True
+    elif pred_option == 'Input values':
+      recency = st.slider('Days since your last purchase:', 0, 500, 0)
+      frequency = st.slider('Range of total times you have made purchases:', 0, 200, (1, 20))
+      monetary = st.slider('Range of total money you have spent ($):', 4, 14000, (4, 100))
+      new_df = pd.DataFrame({
+        'Recency' : recency,
+        'Frequency' :  frequency.sum()/2,
+        'Monetary' : monetary.sum()/2}, 
+        index = [0])
+      lines = np.array(new_df)
+      flag = True
+    
+    if flag:
+      st.write('Content:')
+      if len(lines) > 0:
+        st.code(lines)
+        x_scale = robust_scale(new_df)
+        y_pred = clf.predict(x_scale)
+        st.code("New prediction:" + str(y_pred)) 
 
     
