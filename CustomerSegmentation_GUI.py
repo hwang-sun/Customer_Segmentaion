@@ -313,16 +313,17 @@ elif choice == 'Kmeans Clustering':
     qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label')
     st.pyplot(qua_re_fig.figure)
 else:
-    st.write('## Making Predictions')
+    st.write('## How to predict?'
     model_select = load_csv_df('Clf_model/Clf_select.csv')
     st.dataframe(model_select)
 
     # load model
     clf = load_model('Clf_model/DC_clf.joblib')
     
-    # show accuracy score
+    # Model evaluation
+    st.write('## Model Evaluation')
     score_option = st.radio(
-      "What score you want to see?",
+      "### What score you want to see?",
       ('Accuracy', 'Weighted Scores', 'Classification report', 'Confusion matrix')
     )
     if score_option == 'Accuracy':
@@ -337,5 +338,8 @@ else:
       st.dataframe(report_df)
     else:
       st.image('Clf_model/confusion_matrix.png')
+    
+    # Making predictions
+    st.write('## Making Predictions')
 
     
