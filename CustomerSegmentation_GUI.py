@@ -186,10 +186,6 @@ def df_aggregation(df, label, agg_dict):
   df_agg = df_agg.reset_index()
   return df_agg
 #------------------------ CLUSTERING WHOLE NEW FILE FROM USER --------------------------
-@st.cache_data
-def highlight_row(s):
-    return ['background-color: yellow' if i==s.name else '' for i in range(len(df))]
-
 # load scaler
 @st.cache(allow_output_mutation=True)
 def load_scaler(scaler_name):
@@ -292,7 +288,7 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
 
 elif choice == 'Kmeans Clustering':
     st.write('## Kmeans Clusering')
-    st.write('### About The Data')
+    st.write('###I. About The Data')
     
     df = extract_cols(df = rfm_df, col_lst = ['Recency', 'Frequency', 'Monetary'])
     st.dataframe(df.head())
@@ -323,14 +319,14 @@ def robust_scale(df):
     scale_df = robust_scale(df = df)
     st.dataframe(scale_df.head())
 
-    st.write('### Pick K best centroids')
+    st.write('###II. Pick K best centroids')
     st.write('''
 In order to perform Kmeans clustering, I need to determine the effective number of centroids (k). 
 By deploying Elbow method and Silhouette Score, it's clear that k = 5 centroids offer a low WSSE and not too low silhouette score.
     ''')
     k_best_fig = k_best_plot(df=scale_df)
     st.pyplot(k_best_fig)
-    st.write('### Kmeans Modeling')
+    st.write('###III. Kmeans Modeling')
     st.write('''
 With the k centroids = 5, I use Kmeans() from sklearn library to conduct clusers analysis
     ''')
@@ -362,7 +358,7 @@ df['K_label'] = pd.Series(labels)
     qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label')
     st.pyplot(qua_re_fig.figure)
 else:
-    st.write('## How to predict?')
+    st.write('###I. How to predict?')
     st.write('''
 The idea was that I would build a classification model based on the labels from RFM analysis to predict which cluster a random customer would belong to
 so that we can assign suitable strategy for that customer. 
@@ -405,7 +401,7 @@ model.fit(x_train, y_train)
     clf = load_model('Clf_model/DC_clf.joblib')
     
     # Model evaluation
-    st.write('## Model Evaluation')
+    st.write('###II. Model Evaluation')
     score_option = st.radio(
       'What report do you want to access?',
       ['Accuracy', 'Weighted Scores', 'Classification report', 'Confusion matrix']
@@ -425,7 +421,7 @@ model.fit(x_train, y_train)
       st.image('Clf_model/confusion_matrix.png')
     
     # Making predictions
-    st.write('## Making Predictions')
+    st.write('###III. Making Predictions')
     
     pred_option = st.selectbox(
       'How would you like to make prediction?',
