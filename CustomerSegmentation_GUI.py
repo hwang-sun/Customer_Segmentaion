@@ -367,7 +367,7 @@ else:
       flag = 2
     
     if flag == 2:
-    st.write('Prediction:')
+      st.write('Prediction:')
       if len(line_2) > 0:
         x_scale = robust_scale(new_df_2)
         y_pred = clf.predict(x_scale)
