@@ -215,7 +215,7 @@ def load_model(model_name):
 
 # create title
 st.title('Customer Segmentation Project')
-st.markdown('---')
+'---'
 #create a navigation menu
 with st.sidebar:
   choice = option_menu(
@@ -429,7 +429,8 @@ model.fit(x_train, y_train)
       ['Upload your own data', 'Input values']
     )
     if pred_option == 'Upload your own data':
-      st.write('Your file should only contains 3 features: "Recency", "Frequency", "Monetary value"')
+      st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
+                 icon = '⚠')
       upload_file = st.file_uploader("Choose a csv file", 
                                      type = ['txt', 'csv'])
       if upload_file is not None:
