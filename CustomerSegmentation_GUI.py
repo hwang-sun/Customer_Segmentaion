@@ -10,6 +10,9 @@ from sklearn import metrics
 from sklearn.metrics import silhouette_score
 from sklearn import preprocessing
 import pickle
+import requests
+import json
+from streamlit_lottie import st_lottie
 from joblib import load
 
 #--------------------------------- RFM Analysis -------------------------------------
@@ -212,6 +215,12 @@ def load_model(model_name):
 # -------------------------------- GUI Setting -----------------------------------------
 # set page configuration
 # st.set_page_config(page_title='Customer_Segmentation', layout='centered')
+@st.cache_data
+def load_lottieurl(url: str):
+  r = requests.get(url)
+  if r.status_code != 200:
+    return None
+  return r.json()
 
 # create title
 st.title('Customer Segmentation Project')
@@ -239,6 +248,13 @@ if choice == "Business Objective":
   By focusing on the most profitable customer segments, companies can increase their profitability.
     ''')
     st.image('customer-segmentation.jpg')
+    lottie_hello = load_lottieurl("https://assets2.lottiefiles.com/packages/lf20_bkksg8sb.json")
+    st.lottie(
+      lottie_hello,
+      speed = 1,
+      reverse = False,
+      loop = True
+    )
     st.write('In this project, I perform segmenting customers based on 3 main factors:')
     st.write('''
 - Recency: The last time a customer made a purchase.
