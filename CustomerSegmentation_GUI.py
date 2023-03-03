@@ -186,6 +186,10 @@ def df_aggregation(df, label, agg_dict):
   df_agg = df_agg.reset_index()
   return df_agg
 #------------------------ CLUSTERING WHOLE NEW FILE FROM USER --------------------------
+@st.cache_data
+def highlight_row(s):
+    return ['background-color: yellow' if i==s.name else '' for i in range(len(df))]
+
 # load scaler
 @st.cache(allow_output_mutation=True)
 def load_scaler(scaler_name):
@@ -358,17 +362,16 @@ df['K_label'] = pd.Series(labels)
     qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label')
     st.pyplot(qua_re_fig.figure)
 else:
-    st.write('### How to predict?')
+    st.write('## How to predict?')
     st.write('''
 The idea was that I would build a classification model based on the labels from RFM analysis to predict which cluster a random customer would belong to
 so that we can assign suitable strategy for that customer. 
-
 There were various models to tackle this problem so it's crucial to determine the most appropriate one for the current data set. 
 In order to do this, I perform cross validation with k-fold = 10 on accuracy score and performing time. Based on these 2 factos, I can then choose the fastest and most accurate model
     ''')
     model_select = load_csv_df('Clf_model/Clf_select.csv')
     st.dataframe(model_select)    
-    st.write('After deciding that Decision Tree was the best model for the data set. I then perform Grid Search CV to get the best hyperparameters with the expection of increasing perfomance score.')
+    st.write('After decide that Decision Tree was the best model for the data set. I then perform Grid Search CV to get the best hyperparameters with the expection of increasing perfomance score.')
     st.code('''
 from sklearn.model_selection import GridSearchCV
 # Define the parameter grid to search
@@ -402,7 +405,7 @@ model.fit(x_train, y_train)
     clf = load_model('Clf_model/DC_clf.joblib')
     
     # Model evaluation
-    st.write('### Model Evaluation')
+    st.write('## Model Evaluation')
     score_option = st.radio(
       'What score do you want to see?',
       ['Accuracy', 'Weighted Scores', 'Classification report', 'Confusion matrix']
@@ -410,9 +413,10 @@ model.fit(x_train, y_train)
     if score_option == 'Accuracy':
       score_df = load_csv_df('Clf_model/score_df.csv')
       st.dataframe(score_df)
-      st.write('Model perform well and not being underfiting or overfiting')
+      st.write('=> Model perform well and not being underfiting or overfiting')
     elif score_option == 'Weighted Scores':
       score_df2 = load_csv_df('Clf_model/score_df2.csv')
+      st.write('=> Data is balanced and the model is not biased')
       st.dataframe(score_df2)
     elif score_option == 'Classification report':
       report_df = load_csv_df('Clf_model/classification_report.csv')
@@ -421,7 +425,7 @@ model.fit(x_train, y_train)
       st.image('Clf_model/confusion_matrix.png')
     
     # Making predictions
-    st.write('### Making Predictions')
+    st.write('## Making Predictions')
     
     pred_option = st.selectbox(
       'How would you like to make prediction?',
@@ -458,6 +462,7 @@ model.fit(x_train, y_train)
         st.write('Prediction:')
         new_df = new_df_2
         x_scale = robust_scaler.transform(log_normalize(new_df))
+        st.write('Scaled dataframe')
         st.dataframe(x_scale)
         y_pred = clf.predict(x_scale)
         st.code("You belong to " + str(y_pred) + " group of customer") 
@@ -465,6 +470,7 @@ model.fit(x_train, y_train)
         st.write('Prediction:')
         new_df = new_df_1
         x_scale = robust_scaler.transform(log_normalize(new_df))
+        st.write('Scaled values')
         st.dataframe(x_scale.head())
         y_pred = clf.predict(x_scale)
         new_df['label'] = pd.Series(y_pred)
