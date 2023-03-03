@@ -211,7 +211,7 @@ def load_model(model_name):
   return clf
 # -------------------------------- GUI Setting -----------------------------------------
 # set page configuration
-st.set_page_config(page_title='Customer_Segmentation', page_icon = 'person-exclamation', layout='centered')
+st.set_page_config(page_title = 'Customer Segmentation', page_icon = 'person-exclamation')
 
 # create title
 st.title('Customer Segmentation Project')
