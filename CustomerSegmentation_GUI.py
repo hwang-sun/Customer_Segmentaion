@@ -324,7 +324,8 @@ else:
     st.write('## Model Evaluation')
     st.write('What score you want to see?')
     score_option = st.radio(
-      ('Accuracy', 'Weighted Scores', 'Classification report', 'Confusion matrix')
+      '## Kinds of report',
+      ['Accuracy', 'Weighted Scores', 'Classification report', 'Confusion matrix']
     )
     if score_option == 'Accuracy':
       score_df = load_csv_df('Clf_model/score_df.csv')
