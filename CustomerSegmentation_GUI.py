@@ -319,14 +319,23 @@ else:
 
     # load model
     clf = load_model('Clf_model/DC_clf.joblib')
+    
     # show accuracy score
-    score_df = load_csv_df('Clf_model/score_df.csv')
-    st.dataframe(score_df)
-    st.write('Model perform well and not being underfiting or overfiting')
-    st.image('Clf_model/confusion_matrix.png')
-    report_df = load_csv_df('Clf_model/classification_report.csv')
-    st.dataframe(report_df)
-    score_df2 = load_csv_df('Clf_model/score_df2.csv')
-    st.dataframe(score_df2)
+    score_option = st.radio(
+      "What score you want to see?",
+      ('Accuracy', 'Weighted Scores', 'Classification report', 'Confusion matrix')
+    )
+    if score_option == 'Accuracy':
+      score_df = load_csv_df('Clf_model/score_df.csv')
+      st.dataframe(score_df)
+      st.write('Model perform well and not being underfiting or overfiting')
+    elif score_option == 'Weighted Scores':
+      score_df2 = load_csv_df('Clf_model/score_df2.csv')
+      st.dataframe(score_df2)
+    elif score_option == 'Classification report':
+      report_df = load_csv_df('Clf_model/classification_report.csv')
+      st.dataframe(report_df)
+    else:
+      st.image('Clf_model/confusion_matrix.png')
 
     
