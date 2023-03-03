@@ -185,14 +185,16 @@ def df_aggregation(df, label, agg_dict):
   df_agg['Percent'] = round(df_agg['Count']*100/df_agg.Count.sum(), 2)
   df_agg = df_agg.reset_index()
   return df_agg
-#------------------------ CLUSTERING WHOLE NEW FILE FROM USER --------------------------
+#------------------------  Making New Predictions With Decision Tree classification --------------------------
 # load scaler
+@st.cache(allow_output_mutation=True)
 def load_scaler(scaler_name):
   with open(scaler_name, 'rb') as f:
     scaler = pickle.load(f)
   return scaler
 
 # log normalization
+@st.cache_data
 def log_normalize(df):
   log_features = df.copy()
   log_features['R_log'] = np.log1p(log_features['Recency'])
@@ -207,7 +209,6 @@ def log_normalize(df):
 def load_model(model_name):  
   clf = load(model_name)
   return clf
-
 # -------------------------------- GUI Setting -----------------------------------------
 # set page configuration
 # st.set_page_config(page_title='Customer Segmentation Project', layout='centered')
