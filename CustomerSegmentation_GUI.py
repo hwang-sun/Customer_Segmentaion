@@ -248,7 +248,7 @@ if choice == "Business Objective":
     st.write("By using RFM analysis and Kmeans clustering algorithm on these 3 features, I expect to defferentiate customer groups' behaviors and values.")
 elif choice == 'RFM Analysis':
     st.write("## RFM Analysis")
-    st.write('### I. About The Data:')
+    st.write('### I. About The Data')
     
     st.write('''The data used for analysis including 3 main features: "Recency", "Frequency", "Monetary Value"
              . The "R", "F", "M" features were engineered by calculating quantile for each feature.''')
@@ -272,7 +272,7 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
       'Monetary' : ['mean', 'count']})
     st.dataframe(rfm_agg)
     
-    st.write('### II. RFM Result:')
+    st.write('### II. RFM Result')
     fig = bubble_plot(df_agg = rfm_agg, label = 'RFM_label')
     st.plotly_chart(fig)
     st.write('Based on the result, The dataset was clustered into 5 different groups with following characteristics:')
@@ -371,7 +371,7 @@ In order to do this, I perform cross validation with k-fold = 10 on accuracy sco
     ''')
     model_select = load_csv_df('Clf_model/Clf_select.csv')
     st.dataframe(model_select)    
-    st.write('After decide that Decision Tree was the best model for the data set. I then perform Grid Search CV to get the best hyperparameters with the expection of increasing perfomance score.')
+    st.write('After deciding that Decision Tree was the best model for the data set. I then perform Grid Search CV to get the best hyperparameters with the expection of increasing perfomance score.')
     st.code('''
 from sklearn.model_selection import GridSearchCV
 # Define the parameter grid to search
