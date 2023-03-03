@@ -349,9 +349,8 @@ else:
       upload_file = st.file_uploader("Choose a csv file", type = ['txt', 'csv'])
       if upload_file is not None:
         new_df = pd.read_csv(upload_file)
-        st.dataframe(new_df)
+        st.dataframe(new_df.head(5))
         lines = new_df[0]
-        flag = True
     elif pred_option == 'Input values':
       recency = st.slider('Days since your last purchase:', 0, 500, 0)
       frequency = st.slider('Range of total times you have made purchases:', 0, 200, (1, 20))
@@ -362,14 +361,13 @@ else:
         'Monetary' : monetary.sum()/2}, 
         index = [0])
       lines = np.array(new_df)
-      flag = True
+      st.dataframe(new_df)
+   
+#     st.write('Content:')
+#     if len(lines) > 0:
+#       st.code(lines)
+#       x_scale = robust_scale(new_df)
+#       y_pred = clf.predict(x_scale)
+#       st.code("New prediction:" + str(y_pred)) 
     
-    if flag == True:
-      st.write('Content:')
-      if len(lines) > 0:
-        st.code(lines)
-        x_scale = robust_scale(new_df)
-        y_pred = clf.predict(x_scale)
-        st.code("New prediction:" + str(y_pred)) 
-
     
