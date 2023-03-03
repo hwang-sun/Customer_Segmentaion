@@ -322,7 +322,7 @@ else:
     
     # Model evaluation
     st.write('## Model Evaluation')
-    st.write('What score you want to see?")
+    st.write('What score you want to see?')
     score_option = st.radio(
       ('Accuracy', 'Weighted Scores', 'Classification report', 'Confusion matrix')
     )
