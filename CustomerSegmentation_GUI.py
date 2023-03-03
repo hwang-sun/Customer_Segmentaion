@@ -211,7 +211,7 @@ def load_model(model_name):
   return clf
 # -------------------------------- GUI Setting -----------------------------------------
 # set page configuration
-# st.set_page_config(page_title = 'Customer Segmentation', page_icon = 'person-exclamation')
+# st.set_page_config(page_title='Customer_Segmentation', layout='centered')
 
 # create title
 st.title('Customer Segmentation Project')
@@ -272,7 +272,7 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
       'Monetary' : ['mean', 'count']})
     st.dataframe(rfm_agg)
     
-    st.write('### II. RFM result:')
+    st.write('### II. RFM Result:')
     fig = bubble_plot(df_agg = rfm_agg, label = 'RFM_label')
     st.plotly_chart(fig)
     st.write('Based on the result, The dataset was clustered into 5 different groups with following characteristics:')
@@ -320,7 +320,7 @@ def robust_scale(df):
     scale_df = robust_scale(df = df)
     st.dataframe(scale_df.head())
 
-    st.write('### II. Pick K best centroids')
+    st.write('### II. Pick K-Best Centroids')
     st.write('''
 In order to perform Kmeans clustering, I need to determine the effective number of centroids (k). 
 By deploying Elbow method and Silhouette Score, it's clear that k = 5 centroids offer a low WSSE and not too low silhouette score.
@@ -359,7 +359,7 @@ df['K_label'] = pd.Series(labels)
     qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label')
     st.pyplot(qua_re_fig.figure)
 else:
-    st.write('### I. How to predict?')
+    st.write('### I. How To Predict?')
     st.write('''
 The idea was that I would build a classification model based on the labels from RFM analysis to predict which cluster a random customer would belong to
 so that we can assign suitable strategy for that customer. 
