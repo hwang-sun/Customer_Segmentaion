@@ -349,26 +349,35 @@ else:
     if pred_option == 'Upload your own data':
       upload_file = st.file_uploader("Choose a csv file", type = ['txt', 'csv'])
       if upload_file is not None:
-        new_df = pd.read_csv(upload_file)
-        st.dataframe(new_df.head(5))
-        lines = new_df[0]
+        new_df_1 = pd.read_csv(upload_file)
+        st.dataframe(new_df_1.head(5))
+        line_1 = new_df_1[0]
+        flag = 1
     elif pred_option == 'Input values':
       recency = st.slider('Days since your last purchase:', 0, 500, 0)
       frequency = st.slider('Range of total times you have made purchases:', 0, 200, (1, 20))
       monetary = st.slider('Range of total money you have spent ($):', 4, 14000, (4, 100))
-      new_df = pd.DataFrame({
+      new_df_2 = pd.DataFrame({
         'Recency' : recency,
         'Frequency' :  sum(frequency)/len(frequency),
         'Monetary' : sum(monetary)/len(monetary)}, 
         index = [0])
-      st.dataframe(new_df)
-      lines = np.array(new_df)
-   
-    st.write('Content:')
-    if len(lines) > 0:
-      st.code(lines)
-      x_scale = robust_scale(new_df)
-      y_pred = clf.predict(x_scale)
-      st.code("New prediction:" + str(y_pred)) 
+      st.dataframe(new_df_2)
+      line_2 = np.array(new_df_2)
+      flag = 2
+    
+    if flag = 2
+    st.write('Prediction:')
+      if len(line_2) > 0:
+        x_scale = robust_scale(new_df_2)
+        y_pred = clf.predict(x_scale)
+        st.code("You belong to" + str(y_pred)[0] "group of customer") 
+     elif flag = 1
+      st.write('Prediction:')
+      if len(line_1) > 0:
+        x_scale = robust_scale(new_df_1)
+        y_pred = clf.predict(x_scale)
+        new_df_1['label'] = y_pred
+        st.dataframe(new_df_1.head())
     
     
