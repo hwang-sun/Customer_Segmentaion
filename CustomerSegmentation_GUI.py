@@ -273,8 +273,16 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
     st.dataframe(rfm_agg)
     
     st.write('### II. RFM Result:')
-    fig = bubble_plot(df_agg = rfm_agg, label = 'RFM_label')
-    st.plotly_chart(fig)
+    rfm_result = st.radio(
+      "Choose graph to observe",
+      ['Clusters by mean of RFM', 'Clusters by quantity and revenue contribution']
+    )
+    if rfm_result == 'Clusters by mean of RFM':
+      fig = bubble_plot(df_agg = rfm_agg, label = 'RFM_label')
+      st.plotly_chart(fig)
+    elif rmf_result == 'Clusters by quantity and revenue contribution'
+      qua_re_fig = qua_rev_plot(df = rfm_df, label = 'RFM_label', palette_1 = 'Spectral', palette_2 = 'Blues')
+      st.pyplot(qua_re_fig)
     st.write('Based on the result, The dataset was clustered into 5 different groups with following characteristics:')
     st.write('''
       - VIP : this group of customer bring the highest value to the company as they purchased very frequently with the mean of revenue for each transaction was $338, and still remain buying products over the past 2 months. Eventhough they only accounted for 14.7% of the total number of customers, over 50% revenue was from this group.
@@ -284,8 +292,7 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
       - Lost : customers from this group no longer bought products from the company as their frequency was low and it's over 1 and a half year since their last purchased.
     ''')
     
-    qua_re_fig = qua_rev_plot(df = rfm_df, label = 'RFM_label', palette_1 = 'Spectral', palette_2 = 'Blues')
-    st.pyplot(qua_re_fig)
+    
 
 elif choice == 'Kmeans Clustering':
     st.write('## Kmeans Clusering')
@@ -350,15 +357,19 @@ df['K_label'] = pd.Series(labels)
 - Eventhough group 4 accounted for more than 50% of the total customer's quanitty, their total revenue was only about 15% whereas they're expected to be the most valuable customer cluster (as in the bubble chart)
 - it's hardly explained the differences in characteristics of these groups whcich would result in uneffective business strategy for each one.
     ''')
-    df_agg = df_aggregation(df = k_df, label = 'K_label', agg_dict = {
-      'Recency' : 'mean',
-      'Frequency' : 'mean',
-      'Monetary' : ['mean', 'count']})
-    fig_2 = bubble_plot(df_agg = df_agg, label = 'K_label')
-    st.plotly_chart(fig_2)
-    
-    qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label', palette_1='crest', palette_2='flare')
-    st.pyplot(qua_re_fig.figure)
+    kmeans_result = st.radio(
+      "Choose graph to observe",
+      ['Clusters by mean of RFM', 'Clusters by quantity and revenue contribution'])
+    if kmeans_result == 'Clusters by mean of RFM':
+      df_agg = df_aggregation(df = k_df, label = 'K_label', agg_dict = {
+        'Recency' : 'mean',
+        'Frequency' : 'mean',
+        'Monetary' : ['mean', 'count']})
+      fig_2 = bubble_plot(df_agg = df_agg, label = 'K_label')
+      st.plotly_chart(fig_2)
+    elif kmeans_result == 'Clusters by quantity and revenue contribution':
+      qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label', palette_1='crest', palette_2='flare')
+      st.pyplot(qua_re_fig.figure)
 else:
     st.write('## New Prediction')
     '---'
