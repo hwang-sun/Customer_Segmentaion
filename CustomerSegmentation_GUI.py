@@ -112,13 +112,13 @@ def dis_box_plot(df):
   sns.distplot(df['Monetary'], color = 'm') # Plot distribution of M
   plt.subplot(3, 2, 2)
   sns.boxplot(df.Recency, color = 'c')
-  plt.xticks('Recency')
+  plt.xlabel('Recency')
   plt.subplot(3, 2, 4)
   sns.boxplot(df.Frequency, color = 'c')
-  plt.xticks('Frequency')
+  plt.xlabel('Frequency')
   plt.subplot(3, 2, 6)
   sns.boxplot(df.Monetary, color = 'c')
-  plt.xticks('Monetary Value')
+  plt.xlabel('Monetary Value')
   plt.tight_layout()
   return dis_box_fig
 
