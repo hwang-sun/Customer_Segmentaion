@@ -434,7 +434,7 @@ model.fit(x_train, y_train)
       ['Upload your own data set', 'Input data']
     )
 
-    with st.form("Predict form", clear_on_submit=True):
+    with st.form("upload form", clear_on_submit=True):
       if pred_option == 'Upload your own data set':
         st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
                   icon = '⚠')
@@ -446,7 +446,10 @@ model.fit(x_train, y_train)
           line_1 = new_df_1.iloc[0,:]
           if len(line_1) > 0:
             flag = 0
-      elif pred_option == 'Input data':
+      submitted = st.form_submit_button('Predict')
+      
+    with st.form("input form", clear_on_submit=True):
+      if pred_option == 'Input data':
         input_pick = st.radio(
           'Pick one',
           ['Input values', 'Input range'])
@@ -470,8 +473,8 @@ model.fit(x_train, y_train)
         line_2 = np.array(new_df_2)
         if len(line_2) > 0:
           flag = 1
-      
       submitted = st.form_submit_button('Predict')
+
       robust_scaler = load_scaler('Clf_model/scaler.pkl')
 
       if submitted:
