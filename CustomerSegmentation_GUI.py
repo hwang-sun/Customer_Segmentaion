@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
+import squarify
 from sklearn.cluster import KMeans
 from sklearn import metrics
 from sklearn.metrics import silhouette_score
@@ -59,6 +60,22 @@ def bubble_plot(df_agg, label):
   fig = px.scatter(df_agg, x="RecencyMean", y="FrequencyMean", size="MonetaryMean", color=label,
                   hover_name=label, size_max=100)
   return fig
+
+# scatter plot
+@st.cache_data
+def scatter_plot(df, label, palette_1 = 'BrBG', palette_2 = 'RdBu'):
+  scatter_fig = plt.figure(figsize = (25, 6))
+  plt.subplot(1,2,1)
+  sns.scatterplot(data = df, x = 'Recency', y = 'Frequency', hue = label, palette = palette_1)
+  plt.ylim([0, 50])
+  plt.xlabel('Recency', fontsize = 15)
+  plt.ylabel('Frequency', fontsize = 15)
+  plt.subplot(1,2,2)
+  sns.scatterplot(data = df, x = 'Recency', y = 'Monetary', hue = label, palette = palette_2)
+  plt.ylim([0, 3000])
+  plt.xlabel('Recency', fontsize = 15)
+  plt.ylabel('Monetary', fontsize = 15)
+  return scatter_fig
 
 # clusters by quantity
 @st.cache_data
@@ -275,11 +292,14 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
     st.write('### II. RFM Result:')
     rfm_result = st.radio(
       "Choose graph to observe",
-      ['Clusters by mean of RFM', 'Clusters by quantity and revenue contribution']
+      ['Bubble plot by RFM mean of each cluster', 'Scatter plot of customer groups', 'Clusters by quantity and revenue contribution']
     )
-    if rfm_result == 'Clusters by mean of RFM':
+    if rfm_result == 'Bubble plot by RFM mean of each cluster':
       fig = bubble_plot(df_agg = rfm_agg, label = 'RFM_label')
       st.plotly_chart(fig)
+    elif rfm_result == 'Scatter plot of customer groups':
+      scatter_fig = scatter_plot(df = rfm_df, label = 'RFM_label', palette_1 = 'BrBG', palette_2 = 'RdBu')
+      st.pyplot(scatter_fig)
     elif rfm_result == 'Clusters by quantity and revenue contribution':
       qua_re_fig = qua_rev_plot(df = rfm_df, label = 'RFM_label', palette_1 = 'Spectral', palette_2 = 'Blues')
       st.pyplot(qua_re_fig)
@@ -359,14 +379,17 @@ df['K_label'] = pd.Series(labels)
     ''')
     kmeans_result = st.radio(
       "Choose graph to observe",
-      ['Clusters by mean of RFM', 'Clusters by quantity and revenue contribution'])
-    if kmeans_result == 'Clusters by mean of RFM':
+      ['Bubble plot by RFM mean of each cluster', 'Scatter plot of customer groups', 'Clusters by quantity and revenue contribution'])
+    if kmeans_result == 'Bubble plot by RFM mean of each cluster':
       df_agg = df_aggregation(df = k_df, label = 'K_label', agg_dict = {
         'Recency' : 'mean',
         'Frequency' : 'mean',
         'Monetary' : ['mean', 'count']})
       fig_2 = bubble_plot(df_agg = df_agg, label = 'K_label')
       st.plotly_chart(fig_2)
+    elif rfm_result == 'Scatter plot of customer groups':
+      scatter_fig = scatter_plot(df = k_df, label = 'K_label', palette_1 = 'rocket', palette_2 = 'viridis')
+      st.pyplot(scatter_fig)
     elif kmeans_result == 'Clusters by quantity and revenue contribution':
       qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label', palette_1='crest', palette_2='flare')
       st.pyplot(qua_re_fig.figure)
