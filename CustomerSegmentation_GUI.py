@@ -13,6 +13,8 @@ import pickle
 from joblib import load
 
 #--------------------------------- RFM Analysis -------------------------------------
+st.set_page_config(page_bg_color='white')
+
 # read RFM data
 @st.cache_data
 def load_csv_df(df):
