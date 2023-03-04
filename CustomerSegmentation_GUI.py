@@ -67,13 +67,13 @@ def scatter_plot(df, label, palette_1 = 'BrBG', palette_2 = 'RdBu'):
   plt.subplot(1,2,1)
   sns.scatterplot(data = df, x = 'Recency', y = 'Frequency', hue = label, palette = palette_1)
   plt.ylim([0, 50])
-  plt.xlabel('Recency', fontsize = 15)
   plt.ylabel('Frequency', fontsize = 15)
-  plt.subplot(1,2,2)
-  sns.scatterplot(data = df, x = 'Recency', y = 'Monetary', hue = label, palette = palette_2)
-  plt.ylim([0, 3000])
   plt.xlabel('Recency', fontsize = 15)
-  plt.ylabel('Monetary', fontsize = 15)
+  plt.subplot(1,2,2)
+  sns.scatterplot(data = df, x = 'Monetary', y = 'Frequency', hue = label, palette = palette_2)
+  plt.ylim([0, 50])
+  plt.xlim([0, 3000])
+  plt.xlabel('Monetary Value', fontsize = 15)
   plt.tight_layout()
   return scatter_fig
 
