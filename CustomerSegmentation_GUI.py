@@ -469,7 +469,7 @@ model.fit(x_train, y_train)
           flag = 1
       
       submitted = st.form_submit_button('Predict')
-  robust_scaler = load_scaler('Clf_model/scaler.pkl')
+      robust_scaler = load_scaler('Clf_model/scaler.pkl')
 
       if submitted:
         if flag == 1:
