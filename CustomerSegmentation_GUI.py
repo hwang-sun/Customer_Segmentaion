@@ -457,7 +457,7 @@ model.fit(x_train, y_train)
           new_df_2 = pd.DataFrame({
             'Recency' : recency,
             'Frequency' : frequency,
-            'Monetary' : smonetary}, index = [0])
+            'Monetary' : monetary}, index = [0])
         elif input_pick == 'Input Range':
           recency = st.slider('Days since your last purchase', 0, 500, (0, 10))
           frequency = st.slider('Range of total times you have made purchases', 0, 200, (1, 20))
