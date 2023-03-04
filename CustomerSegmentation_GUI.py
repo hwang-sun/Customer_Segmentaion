@@ -112,10 +112,13 @@ def dis_box_plot(df):
   sns.distplot(df['Monetary']) # Plot distribution of M
   plt.subplot(3, 2, 2)
   sns.boxplot(df.Recency)
+  plt.xlabel('Recency')
   plt.subplot(3, 2, 4)
   sns.boxplot(df.Frequency)
+  plt.xlabel('Frequency')
   plt.subplot(3, 2, 6)
   sns.boxplot(df.Monetary)
+  plt.xlabel('Monetary Value')
   plt.tight_layout()
   return dis_box_fig
 
@@ -150,19 +153,15 @@ def k_best_plot(df):
   
   # plotting
   k_best_fig = plt.figure(figsize=(10, 6))
-  plt.subplot(2,1,1)
-  plt.plot(K, wsse, 'bx-', alpha = 0.8)
-  plt.ylabel('WSSE', fontsize = 12)
-  plt.xticks(K, fontsize=10)
-  plt.yticks(fontsize=10)
-  plt.title('Elbow Method for optimal k', fontsize = 15)
-  plt.subplot(2,1,2)
-  plt.plot(K, silhouette, 'bx-', c='r', alpha=0.7)
+  plt.plot(K, wsse, c = 'c', marker = 'o', alpha = 0.8, label = 'WSSE')
+  plt.plot(K, silhouette, c = 'm', marker = 'o', alpha= 0.8, label = 'Silhouette')
+  plt.plot([0, 5], [0, 5], linestyle = '--', c = 'r', alpha = 0.7)
+  plt.legend(loc = 'best')
   plt.xlabel('Number of centroids', fontsize = 12)
-  plt.ylabel('Silhouette score', fontsize = 12)
+  plt.ylabel('Value', fontsize = 12)
   plt.xticks(K, fontsize=10)
   plt.yticks(fontsize=10)
-  plt.title('Silhouette Method for optimal k', fontsize = 15)
+  plt.title('Elbow & Silhouette Method for optimal k', fontsize = 15)
   plt.tight_layout()
   return k_best_fig
 
