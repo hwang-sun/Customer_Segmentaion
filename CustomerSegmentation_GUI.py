@@ -63,7 +63,7 @@ def bubble_plot(df_agg, label):
 # scatter plot
 @st.cache_data
 def scatter_plot(df, label, palette_1 = 'BrBG', palette_2 = 'RdBu'):
-  scatter_fig = plt.figure(figsize = (8, 5))
+  scatter_fig = plt.figure(figsize = (11, 5))
   plt.subplot(1,2,1)
   sns.scatterplot(data = df, x = 'Frequency', y = 'Recency', hue = label, palette = palette_1)
   plt.ylabel('Recency', fontsize = 12)
