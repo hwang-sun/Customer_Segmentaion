@@ -62,7 +62,7 @@ def bubble_plot(df_agg, label):
 
 # clusters by quantity
 @st.cache_data
-def qua_rev_plot(df, label):
+def qua_rev_plot(df, label, palette_1, palette_2):
   count = df[label].value_counts(normalize=True)*100
   sum = df[['Monetary',label]].groupby(label).sum()
   sum['percent'] = round(sum['Monetary']*100/df.Monetary.sum(),2)
@@ -73,7 +73,7 @@ def qua_rev_plot(df, label):
   ax_q = sns.barplot(data = count, 
               x = count.index.tolist(), y = count.values,
               orient = 'h',
-              palette = 'Spectral')
+              palette = palette_1)
   ytick = [str(x) for x in count.index.tolist()]
   ax_q.set_yticklabels(ytick, fontsize=13)
   plt.setp(ax_q.get_xticklabels(), fontsize = 13)
@@ -82,9 +82,9 @@ def qua_rev_plot(df, label):
   ax_q.set_xlabel(None)
   # clusters by revenues
   plt.subplot(1,2,2)
-  ax_r = sns.barplot(y=sum.sort_values(by='percent').index, 
+  ax_r = sns.barplot(y = sum.sort_values(by='percent').index, 
               x=sum.sort_values(by='percent').percent, 
-              palette='Blues', orient='h')
+              palette = palette_2, orient='h')
   ytick = [str(x) for x in sum.sort_values(by='percent').index.values.tolist()]
   ax_r.set_yticklabels(ytick, fontsize = 13)
   ax_r.set_xlim(0, 60)
@@ -284,7 +284,7 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
       - Lost : customers from this group no longer bought products from the company as their frequency was low and it's over 1 and a half year since their last purchased.
     ''')
     
-    qua_re_fig = qua_rev_plot(df = rfm_df, label = 'RFM_label')
+    qua_re_fig = qua_rev_plot(df = rfm_df, label = 'RFM_label', palette_1 = 'Spectral', palette_2 = 'Blues')
     st.pyplot(qua_re_fig)
 
 elif choice == 'Kmeans Clustering':
@@ -357,7 +357,7 @@ df['K_label'] = pd.Series(labels)
     fig_2 = bubble_plot(df_agg = df_agg, label = 'K_label')
     st.plotly_chart(fig_2)
     
-    qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label')
+    qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label', palette_1='crest', palette_2='flare')
     st.pyplot(qua_re_fig.figure)
 else:
     st.write('## New Prediction')
