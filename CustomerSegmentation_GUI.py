@@ -458,10 +458,6 @@ model.fit(x_train, y_train)
             'Recency' : recency,
             'Frequency' : frequency,
             'Monetary' : monetary}, index = [0])
-          st.dataframe(new_df_2)
-          line_2 = np.array(new_df_2)
-          if len(line_2) > 0:
-            flag = 1
         elif input_pick == 'Input range':
           r = st.slider('Range of days since your last purchase', 0, 500, (0, 10))
           f = st.slider('Range of total times you have made purchases', 0, 200, (1, 20))
@@ -470,10 +466,10 @@ model.fit(x_train, y_train)
             'Recency' : r,
             'Frequency' : sum(f)/len(f),
             'Monetary' : sum(m)/len(m)}, index = [0])
-          st.dataframe(new_df_2)
-          line_2 = np.array(new_df_2)
-          if len(line_2) > 0:
-            flag = 1
+        st.dataframe(new_df_2)
+        line_2 = np.array(new_df_2)
+        if len(line_2) > 0:
+          flag = 1
       
       submitted = st.form_submit_button('Predict')
       robust_scaler = load_scaler('Clf_model/scaler.pkl')
