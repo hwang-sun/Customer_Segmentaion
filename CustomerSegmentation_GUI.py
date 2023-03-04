@@ -280,7 +280,7 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
     if rfm_result == 'Clusters by mean of RFM':
       fig = bubble_plot(df_agg = rfm_agg, label = 'RFM_label')
       st.plotly_chart(fig)
-    elif rmf_result == 'Clusters by quantity and revenue contribution'
+    elif rmf_result == 'Clusters by quantity and revenue contribution':
       qua_re_fig = qua_rev_plot(df = rfm_df, label = 'RFM_label', palette_1 = 'Spectral', palette_2 = 'Blues')
       st.pyplot(qua_re_fig)
     st.write('Based on the result, The dataset was clustered into 5 different groups with following characteristics:')
