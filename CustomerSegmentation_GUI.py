@@ -105,11 +105,11 @@ def extract_cols(df, col_lst):
 def dis_box_plot(df):
   dis_box_fig = plt.figure(figsize=(10,8))
   plt.subplot(3, 2, 1)
-  sns.distplot(df['Recency'], color = 'c')# Plot distribution of R
+  sns.distplot(df['Recency'], color = 'c')
   plt.subplot(3, 2, 3)
-  sns.distplot(df['Frequency'], color = 'c')# Plot distribution of F
+  sns.distplot(df['Frequency'], color = 'c')
   plt.subplot(3, 2, 5)
-  sns.distplot(df['Monetary'], color = 'c') # Plot distribution of M
+  sns.distplot(df['Monetary'], color = 'c') 
   plt.subplot(3, 2, 2)
   sns.boxplot(df.Recency, color = 'c', orient = 'h')
   plt.xlabel('Recency')
@@ -152,17 +152,20 @@ def k_best_plot(df):
       K.append(k)
   
   # plotting
-  k_best_fig = plt.figure(figsize=(10, 5))
-  plt.plot(K, wsse, c = 'c', marker = 'o', alpha = 0.8, label = 'WSSE')
-  plt.plot(K, silhouette, c = 'm', marker = 'o', alpha= 0.8, label = 'Silhouette')
-  plt.plot([5, 5], [0, 1], linestyle = '--', c = 'r', alpha = 0.7)
-  plt.ylim(0, 1)
-  plt.legend(loc = 'best')
-  plt.xlabel('Number of centroids', fontsize = 12)
-  plt.ylabel('Value', fontsize = 12)
+  k_best_fig = plt.figure(figsize=(10, 6))
+  plt.subplot(2,1,1)
+  plt.plot(K, wsse, 'bx-', alpha = 0.8)
+  plt.ylabel('WSSE', fontsize = 12)
   plt.xticks(K, fontsize=10)
   plt.yticks(fontsize=10)
-  plt.title('Elbow & Silhouette Method for optimal k', fontsize = 15)
+  plt.title('Elbow Method for optimal k', fontsize = 15)
+  plt.subplot(2,1,2)
+  plt.plot(K, silhouette, 'bx-', c='r', alpha=0.7)
+  plt.xlabel('Number of centroids', fontsize = 12)
+  plt.ylabel('Silhouette score', fontsize = 12)
+  plt.xticks(K, fontsize=10)
+  plt.yticks(fontsize=10)
+  plt.title('Silhouette Method for optimal k', fontsize = 15)
   plt.tight_layout()
   return k_best_fig
 
@@ -248,8 +251,7 @@ if choice == "Business Objective":
     st.write("By using RFM analysis and Kmeans clustering algorithm on these 3 features, I expect to defferentiate customer groups' behaviors and values.")
 elif choice == 'RFM Analysis':
     st.write("## RFM Analysis")
-    '---'
-    st.write('### I. About The Data')
+    st.write('### I. About The Data:')
     
     st.write('''The data used for analysis including 3 main features: "Recency", "Frequency", "Monetary Value"
              . The "R", "F", "M" features were engineered by calculating quantile for each feature.''')
@@ -273,7 +275,7 @@ df_rfm = df_RFM.assign(R = r_groups.values, F = f_groups.values,  M = m_groups.v
       'Monetary' : ['mean', 'count']})
     st.dataframe(rfm_agg)
     
-    st.write('### II. RFM Result')
+    st.write('### II. RFM Result:')
     fig = bubble_plot(df_agg = rfm_agg, label = 'RFM_label')
     st.plotly_chart(fig)
     st.write('Based on the result, The dataset was clustered into 5 different groups with following characteristics:')
@@ -372,7 +374,7 @@ In order to do this, I perform cross validation with k-fold = 10 on accuracy sco
     ''')
     model_select = load_csv_df('Clf_model/Clf_select.csv')
     st.dataframe(model_select)    
-    st.write('After deciding that Decision Tree was the best model for the data set. I then perform Grid Search CV to get the best hyperparameters with the expection of increasing perfomance score.')
+    st.write('After decide that Decision Tree was the best model for the data set. I then perform Grid Search CV to get the best hyperparameters with the expection of increasing perfomance score.')
     st.code('''
 from sklearn.model_selection import GridSearchCV
 # Define the parameter grid to search
@@ -426,16 +428,15 @@ model.fit(x_train, y_train)
       st.image('Clf_model/confusion_matrix.png')
     
     # Making predictions
-    '---'
     st.write('### III. Making Predictions')
     
     pred_option = st.selectbox(
       'How would you like to make prediction?',
-      ['Upload your own data set', 'Input data']
+      ['Upload your own data', 'Input values']
     )
 
-    with st.form("upload form", clear_on_submit=True):
-      if pred_option == 'Upload your own data set':
+    with st.form("Predict form", clear_on_submit=True):
+      if pred_option == 'Upload your own data':
         st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
                   icon = '⚠')
         upload_file = st.file_uploader("Choose a csv file", 
@@ -443,39 +444,25 @@ model.fit(x_train, y_train)
         if upload_file is not None:
           new_df_1 = pd.read_csv(upload_file)
           st.dataframe(new_df_1.head(5))
-          line_1 = new_df_1.iloc[0,:]
+          line_1 = new_df_1[0]
           if len(line_1) > 0:
             flag = 0
-      submitted = st.form_submit_button('Predict')
-      
-      if pred_option == 'Input data':
-        input_pick = st.radio(
-          'Pick one',
-          ['Input values', 'Input range'])
-        with st.form("input form", clear_on_submit=True):
-          if input_pick == 'Input values':
-            recency = st.number_input('Days since your last purchase')
-            frequency = st.number_input('Total times you have made purchases')
-            monetary = st.number_input('Total money you have spent ($)')
-            new_df_2 = pd.DataFrame({
-              'Recency' : recency,
-              'Frequency' : frequency,
-              'Monetary' : monetary}, index = [0])
-          elif input_pick == 'Input range':
-            r = st.slider('Range of days since your last purchase', 0, 500, (0, 10))
-            f = st.slider('Range of total times you have made purchases', 0, 200, (1, 20))
-            m = st.slider('Range of total money you have spent ($)', 4, 14000, (4, 1000))
-            new_df_2 = pd.DataFrame({
-              'Recency' : r,
-              'Frequency' : sum(f)/len(f),
-              'Monetary' : sum(m)/len(m)}, index = [0])
-          st.dataframe(new_df_2)
-          line_2 = np.array(new_df_2)
-          if len(line_2) > 0:
-            flag = 1
-          submitted = st.form_submit_button('Predict')
-
+      elif pred_option == 'Input values':
+        recency = st.slider('Days since your last purchase:', 0, 500, 0)
+        frequency = st.slider('Range of total times you have made purchases:', 0, 200, (1, 20))
+        monetary = st.slider('Range of total money you have spent ($):', 4, 14000, (4, 100))
+        new_df_2 = pd.DataFrame({
+          'Recency' : recency,
+          'Frequency' :  sum(frequency)/len(frequency),
+          'Monetary' : sum(monetary)/len(monetary)}, 
+          index = [0])
+        st.dataframe(new_df_2)
+        line_2 = np.array(new_df_2)
+        if len(line_2) > 0:
+          flag = 1
+    
       robust_scaler = load_scaler('Clf_model/scaler.pkl')
+      submitted = st.form_submit_button('Predict')
 
       if submitted:
         if flag == 1:
@@ -490,8 +477,8 @@ model.fit(x_train, y_train)
           st.write('Prediction:')
           new_df = new_df_1
           x_scale = robust_scaler.transform(log_normalize(new_df))
-          # st.write('Scaled values')
-          # st.dataframe(x_scale.head())
+          st.write('Scaled values')
+          st.dataframe(x_scale.head())
           y_pred = clf.predict(x_scale)
           new_df['label'] = pd.Series(y_pred)
           st.dataframe(new_df.head())
