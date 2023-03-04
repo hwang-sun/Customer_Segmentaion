@@ -1,5 +1,8 @@
-from streamlit_option_menu import option_menu
 import streamlit as st
+st.set_page_config(page_bg_color='white')
+
+
+from streamlit_option_menu import option_menu
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -13,7 +16,6 @@ import pickle
 from joblib import load
 
 #--------------------------------- RFM Analysis -------------------------------------
-st.set_page_config(page_bg_color='white')
 
 # read RFM data
 @st.cache_data
