@@ -430,25 +430,6 @@ model.fit(x_train, y_train)
     # Making predictions
     st.write('### III. Making Predictions')
     
-    def input_pk(input_pick):
-      if input_pick == 'Input values':
-        recency = st.number_input('Days since your last purchase')
-        frequency = st.number_input('Total times you have made purchases')
-        monetary = st.number_input('Total money you have spent ($)')
-        new_df_2 = pd.DataFrame({
-          'Recency' : recency,
-          'Frequency' : frequency,
-          'Monetary' : monetary}, index = [0])
-      elif input_pick == 'Input range':
-        recency = st.slider('Rang of days since your last purchase', 0, 500, (0, 10))
-        frequency = st.slider('Range of total times you have made purchases', 0, 200, (1, 20))
-        monetary = st.slider('Range of total money you have spent ($)', 4, 14000, (4, 100))
-        new_df_2 = pd.DataFrame({
-          'Recency' : sum(recency)/len(recency),
-          'Frequency' : sum(frequency)/len(frequency),
-          'Monetary' : sum(monetary)/len(monetary)}, index = [0])
-      return new_df_2
-    
     pred_option = st.selectbox(
       'How would you like to make prediction?',
       ['Upload your own data', 'Input values']
@@ -467,19 +448,21 @@ model.fit(x_train, y_train)
           if len(line_1) > 0:
             flag = 0
       elif pred_option == 'Input values':
-        submitted = False
-        input_pick = st.radio(
-                          "Select one",
-                          ['Input values', 'Input range'])
-        while submitted == False: 
-          new_df_2 = input_pk(input_pick)
+        recency = st.number_input('Days since your last purchase')
+        frequency = st.number_input('Total times you have made purchases')
+        monetaty = st.number_input('Total money you have spent ($)')
+        new_df_2 = pd.DataFrame({
+          'Recency' : recency,
+          'Frequency' :  sum(frequency)/len(frequency),
+          'Monetary' : sum(monetary)/len(monetary)}, 
+          index = [0])
         st.dataframe(new_df_2)
         line_2 = np.array(new_df_2)
         if len(line_2) > 0:
           flag = 1
     
-      submitted = st.form_submit_button('Predict')
       robust_scaler = load_scaler('Clf_model/scaler.pkl')
+      submitted = st.form_submit_button('Predict')
 
       if submitted:
         if flag == 1:
