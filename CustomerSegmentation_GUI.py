@@ -468,7 +468,7 @@ model.fit(x_train, y_train)
         if len(line_2) > 0:
           flag = 1
       
-      submitted = st.form_submit_button('Predict')
+    submitted = st.form_submit_button('Predict')
     robust_scaler = load_scaler('Clf_model/scaler.pkl')
 
       if submitted:
