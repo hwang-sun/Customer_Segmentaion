@@ -454,7 +454,7 @@ model.fit(x_train, y_train)
           recency = st.number_input('Days since your last purchase')
           frequency = st.number_input('Range of total times you have made purchases')
           monetary = st.number_input('Range of total money you have spent ($)')
-        elif input_pick == 'Input Range":
+        elif input_pick == 'Input Range':
           recency = st.slider('Days since your last purchase', 0, 500, (0, 10))
           frequency = st.slider('Range of total times you have made purchases', 0, 200, (1, 20))
           monetary = st.slider('Range of total money you have spent ($)', 4, 14000, (4, 1000))
