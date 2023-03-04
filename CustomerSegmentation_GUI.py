@@ -155,7 +155,7 @@ def k_best_plot(df):
   k_best_fig = plt.figure(figsize=(10, 5))
   plt.plot(K, wsse, c = 'c', marker = 'o', alpha = 0.8, label = 'WSSE')
   plt.plot(K, silhouette, c = 'm', marker = 'o', alpha= 0.8, label = 'Silhouette')
-  plt.plot([0, 5], [0, 1], linestyle = '--', c = 'r', alpha = 0.7)
+  plt.plot([5, 5], [0, 1], linestyle = '--', c = 'r', alpha = 0.7)
   plt.ylim(0, 1)
   plt.legend(loc = 'best')
   plt.xlabel('Number of centroids', fontsize = 12)
