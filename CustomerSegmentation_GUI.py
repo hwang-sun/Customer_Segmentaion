@@ -449,23 +449,23 @@ model.fit(x_train, y_train)
       elif pred_option == 'Input data':
         input_pick = st.radio(
           'Pick one',
-          ['Input values', 'Input Range'])
+          ['Input values', 'Input range'])
         if input_pick == 'Input values':
           recency = st.number_input('Days since your last purchase')
-          frequency = st.number_input('Range of total times you have made purchases')
-          monetary = st.number_input('Range of total money you have spent ($)')
+          frequency = st.number_input('Total times you have made purchases')
+          monetary = st.number_input('Total money you have spent ($)')
           new_df_2 = pd.DataFrame({
             'Recency' : recency,
             'Frequency' : frequency,
             'Monetary' : monetary}, index = [0])
-        elif input_pick == 'Input Range':
-          recency = st.slider('Days since your last purchase', 0, 500, (0, 10))
-          frequency = st.slider('Range of total times you have made purchases', 0, 200, (1, 20))
-          monetary = st.slider('Range of total money you have spent ($)', 4, 14000, (4, 1000))
+        elif input_pick == 'Input range':
+          r = st.slider('Range of days since your last purchase', 0, 500, (0, 10))
+          f = st.slider('Range of total times you have made purchases', 0, 200, (1, 20))
+          m = st.slider('Range of total money you have spent ($)', 4, 14000, (4, 1000))
           new_df_2 = pd.DataFrame({
-            'Recency' : recency,
-            'Frequency' : sum(frequency)/len(frequency),
-            'Monetary' : sum(monetary)/len(monetary)}, index = [0])
+            'Recency' : r,
+            'Frequency' : sum(f)/len(f),
+            'Monetary' : sum(m)/len(m)}, index = [0])
         st.dataframe(new_df_2)
         line_2 = np.array(new_df_2)
         if len(line_2) > 0:
