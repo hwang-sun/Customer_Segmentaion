@@ -470,7 +470,7 @@ model.fit(x_train, y_train)
                 'Recency' : sum(recency)/len(recency),
                 'Frequency' : sum(frequency)/len(frequency),
                 'Monetary' : sum(monetary)/len(monetary)}, index = [0])
-             return new_df_2
+            return new_df_2
           st.dataframe(new_df_2)
           line_2 = np.array(new_df_2)
           if len(line_2) > 0:
