@@ -152,20 +152,17 @@ def k_best_plot(df):
       K.append(k)
   
   # plotting
-  k_best_fig = plt.figure(figsize=(10, 6))
-  plt.subplot(2,1,1)
-  plt.plot(K, wsse, 'bx-', alpha = 0.8)
-  plt.ylabel('WSSE', fontsize = 12)
-  plt.xticks(K, fontsize=10)
-  plt.yticks(fontsize=10)
-  plt.title('Elbow Method for optimal k', fontsize = 15)
-  plt.subplot(2,1,2)
-  plt.plot(K, silhouette, 'bx-', c='r', alpha=0.7)
+  k_best_fig = plt.figure(figsize=(10, 5))
+  plt.plot(K, wsse, c = 'c', marker = 'o', alpha = 0.8, label = 'WSSE')
+  plt.plot(K, silhouette, c = 'm', marker = 'o', alpha= 0.8, label = 'Silhouette')
+  plt.plot([5, 5], [0, 1], linestyle = '--', c = 'r', alpha = 0.7)
+  plt.ylim(0, 1)
+  plt.legend(loc = 'best')
   plt.xlabel('Number of centroids', fontsize = 12)
-  plt.ylabel('Silhouette score', fontsize = 12)
+  plt.ylabel('Value', fontsize = 12)
   plt.xticks(K, fontsize=10)
   plt.yticks(fontsize=10)
-  plt.title('Silhouette Method for optimal k', fontsize = 15)
+  plt.title('Elbow & Silhouette Method for optimal k', fontsize = 15)
   plt.tight_layout()
   return k_best_fig
 
