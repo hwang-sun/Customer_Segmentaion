@@ -387,7 +387,7 @@ df['K_label'] = pd.Series(labels)
         'Monetary' : ['mean', 'count']})
       fig_2 = bubble_plot(df_agg = df_agg, label = 'K_label')
       st.plotly_chart(fig_2)
-    elif rfm_result == 'Scatter plot of customer groups':
+    elif kmeans_result == 'Scatter plot of customer groups':
       scatter_fig = scatter_plot(df = k_df, label = 'K_label', palette_1 = 'rocket', palette_2 = 'viridis')
       st.pyplot(scatter_fig)
     elif kmeans_result == 'Clusters by quantity and revenue contribution':
