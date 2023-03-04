@@ -5,7 +5,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
-import squarify
 from sklearn.cluster import KMeans
 from sklearn import metrics
 from sklearn.metrics import silhouette_score
