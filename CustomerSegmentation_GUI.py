@@ -467,9 +467,9 @@ model.fit(x_train, y_train)
         line_2 = np.array(new_df_2)
         if len(line_2) > 0:
           flag = 1
-    
-      robust_scaler = load_scaler('Clf_model/scaler.pkl')
+      
       submitted = st.form_submit_button('Predict')
+    robust_scaler = load_scaler('Clf_model/scaler.pkl')
 
       if submitted:
         if flag == 1:
