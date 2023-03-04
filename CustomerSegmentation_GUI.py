@@ -105,20 +105,20 @@ def extract_cols(df, col_lst):
 def dis_box_plot(df):
   dis_box_fig = plt.figure(figsize=(10,8))
   plt.subplot(3, 2, 1)
-  sns.distplot(df['Recency'], color = 'm')# Plot distribution of R
+  sns.distplot(df['Recency'], color = 'm', alpha = 0.8)# Plot distribution of R
   plt.subplot(3, 2, 3)
-  sns.distplot(df['Frequency'], color = 'm')# Plot distribution of F
+  sns.distplot(df['Frequency'], color = 'm', alpha = 0.8)# Plot distribution of F
   plt.subplot(3, 2, 5)
-  sns.distplot(df['Monetary'], color = 'm') # Plot distribution of M
+  sns.distplot(df['Monetary'], color = 'm', alpha = 0.8) # Plot distribution of M
   plt.subplot(3, 2, 2)
-  sns.boxplot(df.Recency, color = 'c', edgecolor= None)
-  plt.xlabel('Recency')
+  sns.boxplot(df.Recency, color = 'c')
+  plt.xticks('Recency')
   plt.subplot(3, 2, 4)
-  sns.boxplot(df.Frequency, color = 'c', edgecolor = None)
-  plt.xlabel('Frequency')
+  sns.boxplot(df.Frequency, color = 'c')
+  plt.xticks('Frequency')
   plt.subplot(3, 2, 6)
-  sns.boxplot(df.Monetary, color = 'c', edgecolor = None)
-  plt.xlabel('Monetary Value')
+  sns.boxplot(df.Monetary, color = 'c')
+  plt.xticks('Monetary Value')
   plt.tight_layout()
   return dis_box_fig
 
