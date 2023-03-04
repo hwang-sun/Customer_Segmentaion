@@ -435,7 +435,7 @@ model.fit(x_train, y_train)
       ['Upload your own data', 'Input values']
     )
 
-    with st.form("Predict form", clear_on_submit=True):
+    with st.container():
       if pred_option == 'Upload your own data':
         st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
                   icon = '⚠')
@@ -462,7 +462,7 @@ model.fit(x_train, y_train)
           flag = 1
     
       robust_scaler = load_scaler('Clf_model/scaler.pkl')
-      submitted = st.form_submit_button('Predict')
+      submitted = st.button('Predict')
 
       if submitted:
         if flag == 1:
