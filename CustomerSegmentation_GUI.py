@@ -442,7 +442,7 @@ model.fit(x_train, y_train)
         if upload_file is not None:
           new_df_1 = pd.read_csv(upload_file)
           st.dataframe(new_df_1.head(5))
-          line_1 = new_df_1[0]
+          line_1 = new_df_1.iloc[0,:]
           if len(line_1) > 0:
             flag = 0
       elif pred_option == 'Input values':
