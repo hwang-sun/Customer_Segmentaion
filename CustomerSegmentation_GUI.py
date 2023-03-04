@@ -453,9 +453,8 @@ model.fit(x_train, y_train)
         monetaty = st.number_input('Total money you have spent ($)')
         new_df_2 = pd.DataFrame({
           'Recency' : recency,
-          'Frequency' :  sum(frequency)/len(frequency),
-          'Monetary' : sum(monetary)/len(monetary)}, 
-          index = [0])
+          'Frequency' : frequency,
+          'Monetary' : monetary}, index = [0])
         st.dataframe(new_df_2)
         line_2 = np.array(new_df_2)
         if len(line_2) > 0:
