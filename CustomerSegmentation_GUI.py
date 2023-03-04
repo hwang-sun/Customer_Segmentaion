@@ -435,7 +435,7 @@ model.fit(x_train, y_train)
       ['Upload your own data', 'Input values']
     )
 
-    with st.container():
+    with st.form("Predict form", clear_on_submit=True):
       if pred_option == 'Upload your own data':
         st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
                   icon = '⚠')
@@ -444,25 +444,37 @@ model.fit(x_train, y_train)
         if upload_file is not None:
           new_df_1 = pd.read_csv(upload_file)
           st.dataframe(new_df_1.head(5))
-          line_1 = new_df_1[0]
+          line_1 = new_df_1.iloc[0,:]
           if len(line_1) > 0:
             flag = 0
       elif pred_option == 'Input values':
-        recency = st.slider('Days since your last purchase:', 0, 500, 0)
-        frequency = st.slider('Range of total times you have made purchases:', 0, 200, (1, 20))
-        monetary = st.slider('Range of total money you have spent ($):', 4, 14000, (4, 100))
-        new_df_2 = pd.DataFrame({
-          'Recency' : recency,
-          'Frequency' :  sum(frequency)/len(frequency),
-          'Monetary' : sum(monetary)/len(monetary)}, 
-          index = [0])
+        input_pick = st.radio(
+                          "Select one",
+                          ['Input values', 'Input range'])
+        if input_pick == 'Input values':
+          recency = st.number_input('Days since your last purchase')
+          frequency = st.number_input('Total times you have made purchases')
+          monetaty = st.number_input('Total money you have spent ($)')
+          new_df_2 = pd.DataFrame({
+            'Recency' : recency,
+            'Frequency' :  frequency,
+            'Monetary' : monetary}, index = [0])
+        elif input_pick == 'Input range':
+          recency = st.slider('Days since your last purchase', 0, 500, (0, 10))
+          frequency = st.slider('Range of total times you have made purchases', 0, 200, (1, 20))
+          monetary = st.slider('Range of total money you have spent ($)', 4, 14000, (4, 100))
+          new_df_2 = pd.DataFrame({
+            'Recency' : recency,
+            'Frequency' :  sum(frequency)/len(frequency),
+            'Monetary' : sum(monetary)/len(monetary)}, index = [0])
         st.dataframe(new_df_2)
         line_2 = np.array(new_df_2)
         if len(line_2) > 0:
           flag = 1
     
+      submitted = st.form_submit_button('Predict')
       robust_scaler = load_scaler('Clf_model/scaler.pkl')
-      submitted = st.button('Predict')
+      
 
       if submitted:
         if flag == 1:
