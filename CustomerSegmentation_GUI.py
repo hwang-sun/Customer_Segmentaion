@@ -65,15 +65,14 @@ def bubble_plot(df_agg, label):
 def scatter_plot(df, label, palette_1 = 'BrBG', palette_2 = 'RdBu'):
   scatter_fig = plt.figure(figsize = (9, 5))
   plt.subplot(1,2,1)
-  sns.scatterplot(data = df, x = 'Recency', y = 'Frequency', hue = label, palette = palette_1)
-  plt.ylim([0, 50])
-  plt.ylabel('Frequency', fontsize = 15)
-  plt.xlabel('Recency', fontsize = 15)
+  sns.scatterplot(data = df, x = 'Frequency', y = 'Recency', hue = label, palette = palette_1)
+  plt.ylabel('Recency', fontsize = 14)
+  plt.xlabel('Frequency', fontsize = 14)
   plt.subplot(1,2,2)
-  sns.scatterplot(data = df, x = 'Monetary', y = 'Frequency', hue = label, palette = palette_2)
-  plt.ylim([0, 50])
+  sns.scatterplot(data = df, x = 'Monetary', y = 'Recency', hue = label, palette = palette_2)
   plt.xlim([0, 3000])
-  plt.xlabel('Monetary Value', fontsize = 15)
+  plt.ylabel(None)
+  plt.xlabel('Monetary Value', fontsize = 14)
   plt.tight_layout()
   return scatter_fig
 
