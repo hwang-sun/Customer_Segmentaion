@@ -370,12 +370,6 @@ df['K_label'] = pd.Series(labels)
     ''')
     centroids, k_df = kmeans_model(train_df = scale_df, label_df = df)
     st.dataframe(k_df.head())
-    st.write('The result of Kmeans Clustering does not seem to be very appropriate as following reasons:')
-    st.write('''
-- Groups only show the differences in Recency and Frequency, but not revenue contribution (the most important factor)
-- Eventhough group 4 accounted for more than 50% of the total customer's quanitty, their total revenue was only about 15% whereas they're expected to be the most valuable customer cluster (as in the bubble chart)
-- it's hardly explained the differences in characteristics of these groups whcich would result in uneffective business strategy for each one.
-    ''')
     kmeans_result = st.radio(
       "Choose graph to observe",
       ['Bubble plot by RFM mean of each cluster', 'Scatter plot of customer groups', 'Clusters by quantity and revenue contribution'])
@@ -392,6 +386,12 @@ df['K_label'] = pd.Series(labels)
     elif kmeans_result == 'Clusters by quantity and revenue contribution':
       qua_re_fig = qua_rev_plot(df = k_df, label = 'K_label', palette_1='crest', palette_2='flare')
       st.pyplot(qua_re_fig.figure)
+    st.write('The result of Kmeans Clustering does not seem to be very appropriate as following reasons:')
+    st.write('''
+- Groups only show the differences in Recency and Frequency, but not revenue contribution (the most important factor)
+- Eventhough group 4 accounted for more than 50% of the total customer's quanitty, their total revenue was only about 15% whereas they're expected to be the most valuable customer cluster (as in the bubble chart)
+- it's hardly explained the differences in characteristics of these groups whcich would result in uneffective business strategy for each one.
+    ''')
 else:
     st.write('## New Prediction')
     '---'
