@@ -426,15 +426,16 @@ model.fit(x_train, y_train)
       st.image('Clf_model/confusion_matrix.png')
     
     # Making predictions
+    '---'
     st.write('### III. Making Predictions')
     
     pred_option = st.selectbox(
       'How would you like to make prediction?',
-      ['Upload your own data', 'Input values']
+      ['Upload your own data set', 'Input data']
     )
 
     with st.form("Predict form", clear_on_submit=True):
-      if pred_option == 'Upload your own data':
+      if pred_option == 'Upload your own data set':
         st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
                   icon = '⚠')
         upload_file = st.file_uploader("Choose a csv file", 
@@ -445,10 +446,18 @@ model.fit(x_train, y_train)
           line_1 = new_df_1.iloc[0,:]
           if len(line_1) > 0:
             flag = 0
-      elif pred_option == 'Input values':
-        recency = st.slider('Days since your last purchase:', 0, 500, 0)
-        frequency = st.slider('Range of total times you have made purchases:', 0, 200, (1, 20))
-        monetary = st.slider('Range of total money you have spent ($):', 4, 14000, (4, 100))
+      elif pred_option == 'Input data':
+        input_pick = st.radio(
+          'Pick one',
+          ['Input values', 'Input Range'])
+        if input_pick == 'Input values':
+          recency = st.number_input('Days since your last purchase')
+          frequency = st.number_input('Range of total times you have made purchases')
+          monetary = st.number_input('Range of total money you have spent ($)')
+        elif input_pick == 'Input Range":
+          recency = st.slider('Days since your last purchase', 0, 500, (0, 10))
+          frequency = st.slider('Range of total times you have made purchases', 0, 200, (1, 20))
+          monetary = st.slider('Range of total money you have spent ($)', 4, 14000, (4, 1000))
         new_df_2 = pd.DataFrame({
           'Recency' : recency,
           'Frequency' :  sum(frequency)/len(frequency),
