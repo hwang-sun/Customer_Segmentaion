@@ -498,6 +498,7 @@ model.fit(x_train, y_train)
 
       if submitted:
         if flag == 1:
+          '---'
           st.write('Prediction:')
           new_df = new_df_2
           x_scale = robust_scaler.transform(log_normalize(new_df))
@@ -506,6 +507,7 @@ model.fit(x_train, y_train)
           y_pred = clf.predict(x_scale)
           st.code("You belong to " + str(y_pred) + " group of customer") 
         else:
+          '---'
           st.write('Prediction:')
           new_df = new_df_1
           x_scale = robust_scaler.transform(log_normalize(new_df))
