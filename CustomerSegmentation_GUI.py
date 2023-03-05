@@ -511,7 +511,6 @@ model.fit(x_train, y_train)
           st.write('#### Prediction')
           new_df = new_df_1
           x_scale = robust_scaler.transform(log_normalize(new_df))
-          st.write('Scaled values')
           y_pred = clf.predict(x_scale)
           new_df['label'] = pd.Series(y_pred)
           st.dataframe(new_df.head())
