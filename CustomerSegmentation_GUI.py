@@ -485,8 +485,8 @@ model.fit(x_train, y_train)
           if len(line_1) > 0:
             flag = 0
       elif pred_option == 'Input Values':
-        recency = st.number_input('Days since your last purchase')
-        frequency = st.number_input('Total times you have made purchases')
+        recency = st.number_input('Days since your last purchase', format = '%d')
+        frequency = st.number_input('Total times you have made purchases', format = '%d')
         monetary = st.number_input('Total money you have spent ($)')
         new_df_2 = pd.DataFrame({
           'Recency' : recency,
