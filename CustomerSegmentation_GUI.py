@@ -466,13 +466,14 @@ model.fit(x_train, y_train)
     
     pred_option = st.selectbox(
       'How would you like to make prediction?',
-      ['Upload your own data', 'Input values']
+      ['Input Values', 'Upload File']
     )
 
     with st.form("Predict form", clear_on_submit=True):
-      if pred_option == 'Upload your own data':
+      if pred_option == 'Upload File':
         st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
                   icon = '⚠')
+        st.dataframe(rfm_df.head(3))
         upload_file = st.file_uploader("Choose a csv file", 
                                       type = ['txt', 'csv'])
         if upload_file is not None:
@@ -481,7 +482,7 @@ model.fit(x_train, y_train)
           line_1 = new_df_1.iloc[0,:]
           if len(line_1) > 0:
             flag = 0
-      elif pred_option == 'Input values':
+      elif pred_option == 'Input Values':
         recency = st.number_input('Days since your last purchase')
         frequency = st.number_input('Total times you have made purchases')
         monetary = st.number_input('Total money you have spent ($)')
