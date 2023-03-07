@@ -473,7 +473,7 @@ model.fit(x_train, y_train)
       if pred_option == 'Upload File':
         st.warning('Your file should only contains 3 features: "Recency", "Frequency", and "Monetary value"',
                   icon = '⚠')
-        st.dataframe(rfm_df.iloc[:, :2].head(3))
+        st.dataframe(rfm_df.iloc[:, :3].head(3))
         upload_file = st.file_uploader("Choose a csv file", 
                                       type = ['txt', 'csv'])
         if upload_file is not None:
