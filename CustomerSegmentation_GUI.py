@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(page_title = 'Customer Segmentation', page_icon = 'person-bounding-box', layout = 'centered')
+st.set_page_config(page_title = 'Customer Segmentation', page_icon = 'bi-person-bounding-box', layout = 'centered')
 
 from streamlit_option_menu import option_menu
 import numpy as np
