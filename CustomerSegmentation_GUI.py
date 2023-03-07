@@ -96,7 +96,7 @@ def qua_rev_plot(df, label, palette_1, palette_2):
               x = count.index.tolist(), y = count.values,
               orient = 'h',
               palette = palette_1)
-  ytick = [str(x) for x in count.sort_value().index.tolist()]
+  ytick = [str(x) for x in count.sort_values().index.tolist()]
   ax_q.set_yticklabels(ytick, fontsize=13)
   plt.setp(ax_q.get_xticklabels(), fontsize = 13)
   ax_q.set_title("Customers' count by each cluster (%)", fontsize=17)
