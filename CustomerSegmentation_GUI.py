@@ -90,12 +90,13 @@ def qua_rev_plot(df, label, palette_1, palette_2):
   sum['percent'] = round(sum['Monetary']*100/df.Monetary.sum(),2)
 
   qua_re_fig = plt.figure(figsize = (10, 5))
+  # clusters by quantity
   plt.subplot(1,2,1)
   ax_q = sns.barplot(data = count, 
               x = count.index.tolist(), y = count.values,
               orient = 'h',
               palette = palette_1)
-  ytick = [str(x) for x in count.index.tolist()]
+  ytick = [str(x) for x in count.sort_value().index.tolist()]
   ax_q.set_yticklabels(ytick, fontsize=13)
   plt.setp(ax_q.get_xticklabels(), fontsize = 13)
   ax_q.set_title("Customers' count by each cluster (%)", fontsize=17)
