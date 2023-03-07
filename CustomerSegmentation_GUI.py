@@ -23,6 +23,9 @@ def load_csv_df(df):
   return df
 rfm_df = load_csv_df(df = 'RFM_data.csv')
 
+plt.style.use('seaborn-whitegrid')
+
+
 # customer labeling
 def rfm_label(df):
   if df.F == 1 or df.F==2 or df.F == 3:
@@ -86,7 +89,6 @@ def qua_rev_plot(df, label, palette_1, palette_2):
   sum = df[['Monetary',label]].groupby(label).sum()
   sum['percent'] = round(sum['Monetary']*100/df.Monetary.sum(),2)
 
-  plt.style.use('seaborn-whitegrid')
   qua_re_fig = plt.figure(figsize = (10, 5))
   plt.subplot(1,2,1)
   ax_q = sns.barplot(data = count, 
