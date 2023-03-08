@@ -417,7 +417,7 @@ There were various models to tackle this problem so it's crucial to determine th
 In order to do this, I perform cross validation with k-fold = 10 on accuracy score and performing time. Based on these 2 factos, I can then choose the fastest and most accurate model
     ''')
     model_select = load_csv_df('Clf_model/Clf_select.csv')
-    st.dataframe(model_select.style.applymap(color_df, subset = 'Mode')    
+    st.dataframe(model_select.style.applymap(color_df, subset = 'Mode'))    
     st.write('After deciding that Decision Tree was the best model for the data set. I then perform Grid Search CV to get the best hyperparameters with the expection of increasing perfomance score.')
     st.code('''
 from sklearn.model_selection import GridSearchCV
