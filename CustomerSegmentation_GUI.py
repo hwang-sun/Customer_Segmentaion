@@ -411,7 +411,7 @@ In order to do this, I perform cross validation with k-fold = 10 on accuracy sco
     ''')
     model_select = load_csv_df('Clf_model/Clf_select.csv')
     st.dataframe(model_select)    
-    st.write('After decide that Decision Tree was the best model for the data set. I then perform Grid Search CV to get the best hyperparameters with the expection of increasing perfomance score.')
+    st.write('After deciding that Decision Tree was the best model for the data set. I then perform Grid Search CV to get the best hyperparameters with the expection of increasing perfomance score.')
     st.code('''
 from sklearn.model_selection import GridSearchCV
 # Define the parameter grid to search
