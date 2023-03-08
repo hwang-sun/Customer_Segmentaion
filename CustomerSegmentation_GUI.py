@@ -209,7 +209,6 @@ def df_aggregation(df, label, agg_dict):
   return df_agg
 #------------------------ CLUSTERING WHOLE NEW FILE FROM USER --------------------------
 # color dataframe
-@st.cache(allow_output_mutation=True)
 def color_df(val):
   if val == 'DecisionTreeClassifier':
     color = 'yellow'
