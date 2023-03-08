@@ -441,6 +441,12 @@ model = DecisionTreeClassifier(criterion = 'gini',
                                min_samples_split = 2)
 model.fit(x_train, y_train)
     ''')
+    st.write('Result:')
+    metric_1, metric_2 = st.columns(3)
+    with metric_1:
+      st.metric(label = 'Accuracy before tunning parameter', value = '0.959')
+    with metric_2:
+      st.metric(label = 'Accuracy after tunning parameter', value = '0.973', delta = '0.014')
     # load model
     clf = load_model('Clf_model/DC_clf.joblib')
     
