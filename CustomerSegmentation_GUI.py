@@ -211,7 +211,7 @@ def df_aggregation(df, label, agg_dict):
 # color dataframe
 def color_df(val):
   if val == 'DecisionTreeClassifier':
-    color = 'yellow'
+    color = 'green'
   return f'background-color: {color}'
 
 # load scaler
