@@ -442,7 +442,7 @@ model = DecisionTreeClassifier(criterion = 'gini',
 model.fit(x_train, y_train)
     ''')
     st.write('Result:')
-    metric_1, metric_2 = st.columns(3)
+    metric_1, metric_2 = st.columns(2)
     with metric_1:
       st.metric(label = 'Accuracy before tunning parameter', value = '0.959')
     with metric_2:
